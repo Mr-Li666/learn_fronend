@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const data = [
+    {
+        name: 'a1',
+        children: [
+            { name: 'b', children: [{ name: 'e' }] },
+            { name: 'c', children: [{ name: 'f' }] },
+            { name: 'd', children: [{ name: 'g' }] },
+        ],
+    },
+    {
+        name: 'a2',
+        children: [
+            { name: 'b2', children: [{ name: 'b22' ,children:[{name:'b222'}]}] },
+            { name: 'c2', children: [{ name: 'f2' }] },
+            { name: 'd2', children: [{ name: 'g2' }] },
+        ],
+    }
+]
+
+function dfs(data){
+  let result=[]
+
+  data.forEach(item => {
+    result.push(item.name)
+    if(item.children){
+      // 再把item.children作为参数传进去
+      _dfs(result, item.children)
+    }
+    
+  });
+
+  console.log(result)
+}
+
+function _dfs(result , arr){
+  arr.forEach((item) =>{
+    result.push(item.name)
+    if(item.children){
+      // 再把item.children作为参数传进去
+      _dfs(result, item.children)
+    }
+  })
+}
+dfs(data)
+// function dfs(data){
+//   let result = []
+
+//   for(let element of data){
+//     result.push(element.name)
+//     if(element.children){
+//       recursionFunc(result,element.children)
+//     }
+//   }
+//   return result.join('->')
+// }
+// function recursionFunc(result, arr){
+//   arr.forEach(item => {
+//     result.push(item.name)
+//     if(item.children){
+//       recursionFunc(result,item.children)
+//     }
+//   });
+// }
+// console.log(dfs(data))
+  </script>
+</body>
+</html>

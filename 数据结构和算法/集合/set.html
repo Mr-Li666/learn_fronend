@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    class Set {
+      constructor() {
+        this.item = {}
+      }
+
+      // add(value) 添加一个元素
+      add(value) {
+        if (this.has(value)) return false
+        this.item[value] = value
+        return true
+      }
+
+      // has(value) 判断集合中是否有这个元素
+      has(value) {
+        return this.item.hasOwnProperty(value)
+      }
+      // remove(value) 移除某个元素
+      remove(value) {
+        if (this.has(value)) {
+          delete this.item[value]
+          return true
+        } else {
+          return false
+        }
+      }
+
+      // clear()
+      clear() {
+        this.item = {}
+      }
+      // size()
+      size() {
+        return Object.keys(this.item).length
+      }
+      // values() 获取集合中所有的值
+      values() {
+        return Object.keys(this.item)
+      }
+      // 并集：返回两个集合中所有元素的新集合
+      union(otherSet) {
+        let newSet = new Set()
+        let values = this.values()
+        for (let i in values) {
+          newSet.add(values[i])
+        }
+        let otherValues = otherSet.values()
+        for (let i in otherValues) {
+          newSet.add(otherValues[i])
+        }
+        return newSet
+        // let otherValues = otherSet.values()
+        // for(let i in otherValues){
+        //   if(!this.item[otherValues[i]]){
+        //     this.item[otherValues[i]] = otherValues[i]
+        //   }
+        // }
+        // return this.item
+      }
+      // 交集：给定两个集合，返回一个包含两个集合在共同元素的新集合
+      intersection(otherSet){
+        let newSet = new Set()
+        let values = otherSet.values()
+        for(let ele of values){
+          if(this.has(ele)){
+            newSet.add(ele)
+          }
+        }
+        return newSet
+      }
+      // 差集：在第一个集合中存在，第二个集合中不存在的
+      diff(otherSet){
+        let newSet = new Set()
+        let values = this.values()
+        for(let ele of values){
+          if(!otherSet.has(ele)){
+            newSet.add(ele)
+          }
+        }
+        return newSet
+      }
+      // 子集
+      son(otherSet){
+        let values = this.values();
+        let isSon = false
+        for(let ele of values){
+          if(otherSet.has(ele)){
+            isSon = true
+          }else{
+            isSon = false;
+            break
+          }
+        }
+        return isSon
+      }
+    }
+
+    let set = new Set()
+    set.add('aaa')
+    set.add('bbb')
+    set.add('ccc')
+    console.log(set)
+
+    let otherSet = new Set()
+    otherSet.add('111')
+    otherSet.add('222')
+    otherSet.add('333')
+    otherSet.add('aaa')
+    otherSet.add('bbb')
+    otherSet.add('ccc')
+    console.log(otherSet)
+
+    // 并集
+    let union = set.union(otherSet)
+    console.log(union)
+    // 交集
+    let n = set.intersection(otherSet)
+    console.log(n)
+    // 差集
+    let diff1 = set.diff(otherSet)
+    console.log(diff1)
+    let diff2 = otherSet.diff(set)
+    console.log(diff2)
+    // 子集
+    let son1 = set.son(otherSet)
+    console.log(son1)
+    let son2 = otherSet.son(set)
+    console.log(son2)
+  </script>
+</body>
+
+</html>

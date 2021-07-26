@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    class Node{
+      constructor(data){
+        this.data = data;
+        this.next = null;
+        this.pre = null;
+      }
+    }
+
+    class DoubleList{
+      constructor(){
+        this.head = null;
+        this.tail = null;
+        this.length = 0;
+      }
+
+      // append(element) 向链表尾部添加一个新的项
+      append(element){
+        let node = new Node(element);
+        if(this.length == 0){
+          this.head = node;
+          this.tail = node;
+        }else{
+          node.pre = this.tail
+          this.tail.next = node
+          this.tail = node
+        }
+
+        this.length++
+      }
+      // insert(position, element):向列表的特定位置插入一个新的项
+      insert(position,element){
+        let node = new Node(element)
+        let point = 0;
+        if(positon < 0) return false
+        if(position == 0){
+          if(this.head == null){
+            this.head = node;
+            this.tail = node
+          }else{
+            this.head.pre = node;
+            node.next = this.head;
+            this.head = node
+          }
+        }else if(position >= this.length) {this.append(element)}
+        else{
+          let current = this.head;
+          while (current && point < position) {
+            current = current.next
+            point++
+          }
+          node.pre = current.pre
+          current.pre = node;
+          current.pre.next = node
+          node.next = current 
+        }
+        this.length++
+      }
+      // get(position) 获取对应位置的元素
+      get(position){
+        let point = 0;
+        if(position > this.length || position <0) return false
+        let current = this.head
+        while (current && point<position-1) {
+          current = current.next
+          point++
+        }
+        return current.data
+      }
+      // indexOf(element) 返回元素在列表中的索引 如果列表中没有该元素返回-1
+      indexOf(element){
+        let current = this.head;
+        let index = 0;
+        while (current.data != element) {
+          current = current.next
+          index++
+        }
+        if(current.data == element){
+          return index
+        }else{
+          return -1
+        }
+      }
+      // update(position,element) 修改某个位置的元素
+      update(position,element){
+        let current = this.head;
+        let index = 0
+        if(position <0 || position > this.length-1) return false
+        while (current && index < position) {
+          current = current.next
+          index++
+        }
+        if(index == position){
+          current.data = element
+        }
+      }
+      // removeAt(position) 从列表的特定位置移除一项
+      removeAt(position){
+        if(position <0 || position > this.length){
+          return false
+        }
+        if(position == 0){
+          if(this.length == 1){
+            this.head = null
+            this.pre = null
+          }else{
+            this.head = this.head.next
+            this.head.pre = null
+          }
+          
+        }else if(position == this.length-1){
+          this.tail = this.tail.pre
+          this.tail.next = null
+        }else{
+          let index = 0;
+          let current = this.head;
+          while(current && index < position){
+            current = current.next;
+            index++
+          }
+          current.pre.next = current.next
+          curren.next.pre = current.pre
+        }
+
+        this.length--
+      }
+      // isEmpty() 如果列表中不包含任何元素 返回true
+      isEmpty(){
+        return this.length == 0
+      }
+      // size() 返回列表的长度
+      size(){
+        return this.length
+      }
+      // toString
+      toString(){
+        let current = this.head;
+        let str= ''
+        while(current){
+          str += current.data;
+          current = current.next
+        }
+
+        return str
+      }
+
+      // forwardString() 返回正向遍历的节点字符串形式
+      forwardString(){
+        let current = this.head;
+        let str= ''
+        while(current){
+          str += current.data + '->';
+          current = current.next
+        }
+
+        return str
+      }
+      // backWordString() 返回反向遍历的节点字符串形式
+      backWordString(){
+        let current = this.tail
+        let str = ''
+        while(current){
+          str += current.data+'->'
+          current = current.pre
+        }
+
+        return str
+      }
+    }
+
+    let doublelist = new DoubleList()
+    doublelist.append('111')
+    doublelist.append('222')
+    doublelist.append('333')
+    doublelist.append('444')
+    doublelist.append('555')
+    console.log(doublelist)
+    console.log(doublelist.indexOf('111'))
+  </script>
+</body>
+</html>

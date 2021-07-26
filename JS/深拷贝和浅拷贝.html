@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // https://juejin.cn/post/6844903745961066503
+    // 浅拷贝：新创建一个对象，这个对象有原始对象的一份精确的拷贝。对于数值类型，拷贝的是一个值；对于对象类型，拷贝的是一个地址。
+
+    // 深拷贝：重新开辟一块内存，对拷贝的值进行存储。对值修改时互相不影响
+    // 如果值是基本数据类型，那么实现的是深拷贝
+    let num1 = 1234;
+    let num2 = num1;
+    num2 = '11111'
+    console.log(`num1:${num1}, num2:${num2}`)
+
+    // 浅拷贝：只拷贝了存储的地址，并没有真正拷贝这个值
+    let a = [1, 2, [3, 4], { 'num': '11' }];
+    let b = a;
+    // a[3]='00';
+    console.log(`a:${a}, b:${b}`)
+
+    // 浅拷贝的实现：
+    // 1. 简单的引用复制
+
+    // 2. Object.assign(newObj, 源对象)：把源对象的可枚举的属性拷贝给新的对象
+    let old = [1, 2, 3, 4]
+    let newArr = Object.assign(old) //浅拷贝
+    // let newArr = Object.assign([],old)// 浅拷贝+深拷贝，因为newArr在声明时，开辟了一块内存，但是里面的数值类型是深拷贝，对象类型还是浅拷贝
+    old[0] = '000'
+    console.log(`old:${old}, new:${newArr}`)
+
+    // 深拷贝的实现：
+    // 1. 递归实现深拷贝：将每个值都进行拷贝
+    function deepCopy(obj) {
+      let copy = Array.isArray(obj) ? [] : {}
+      if (obj && typeof obj == 'object') {
+        for (let key in obj) {
+          // 确保key是数据obj本身的，而不是继承来的
+          if (obj.hasOwnProperty(key)) {
+            // 判断这个元素是数值类型还是object
+            if (typeof obj[key] === 'object') {
+              // 如果是对象类型的，就进行递归拷贝
+              copy[key] = deepCopy(obj[key])
+            } else {
+              // 如果是数值类型的，就进行赋值即可
+              copy[key] = obj[key]
+            }
+          }
+        }
+      } else {
+        console.log('数值类型直接赋值就是深拷贝')
+      }
+      return copy
+    }
+    let copyobj = deepCopy(a);
+    console.log(`copy:${copyobj}`)
+    // 2. JSON.parse json.stringfy, 
+    function jsonCopy(obj) {
+      let jsonstr = JSON.stringify(obj);
+      return JSON.parse(jsonstr)
+    }
+    //    存在的几个问题：
+    // (1)无法对对象里的方法进行拷贝，会显示null.  会忽略undefined symbol
+    // let jsonobj = [1,2,3,4,function(){},undefined,null]
+    let jsonobj = {
+      name: 'muyiy',
+      a: undefined,
+      b: Symbol('muyiy'),
+      c: function () { }
+    }
+    let copyjson = jsonCopy(jsonobj)
+    // copyjson[4] = 55;
+    console.log(`jsonobj:${jsonobj} ,copyjson:${copyjson} `,)
+    // (2)不能正确处理new Date(), 解决方法：将date转为字符串或时间戳
+    // let date = new Date().valueOf();// 时间戳
+    let date = new Date().toString() //字符串
+    console.log(date);
+    console.log(JSON.parse(JSON.stringify(date)))
+    // (3)不能正确处理正则,会显示一个空对象
+    let exobj = {
+      a:111,
+      b:/'123'/g
+    }
+    console.log(exobj);
+    let copyexobj = JSON.parse(JSON.stringify(exobj));
+    // copyexobj.b = 222
+    console.log(copyexobj)
+  </script>
+</body>
+
+</html>

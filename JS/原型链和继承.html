@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  在声明一个函数时，每个函数都带有一个prototype，叫做原型对象。在这个原型对象里，包含了两部分：一个是constructor，一个是__proto__;
+  constructor 指向这个构造函数本身。
+  __proto__指向Object.prototype
+
+  Object本身又有prototype，也包括这两个属性。构造函数回指，__proto__指向为null
+
+  通过new方式，构造函数的实例对象，将会带有构造函数的属性,并且本身没有prototype，而是带有__proto__,
+  该属性指向构造函数的原型对象，所以构造函数的方法会挂载在这个属性上。
+
+  这样就形成一个链式结构，当在实例上查找属性或方法时，首先会在实例本身查找，没有找到就顺着原型链进行查找。一直找到null，还没有找到返回undefined
+  <br />
+  <img src="../img/原型链.png" alt="">
+  <script>
+    let Person = function (name, age) {
+      this.name = name;
+      this.age = age;
+    }
+    Person.prototype.say = function () { console.log('hello') }
+    console.log(Person.prototype);  // 原型对象，里面包含constructor和__proto__。
+    console.log(Person.prototype.constructor === Person) // true.  constructor回指
+    console.log(Person.prototype.__proto__ === Object.prototype)  // true    __proto__指向Object.prototype.
+
+    console.log(Object.prototype)
+    console.log(Object.prototype.constructor === Object) //true.  constructor回指
+    console.log(Object.prototype.__proto__ === null)// true    __proto__指向null
+
+    let person = new Person();
+    console.log(person)
+    console.log(person.prototype)  //实例本身是没有prototype的
+    console.log(person.__proto__ === Person.prototype) //指向构造函数的原型对象
+    console.log(person.s) //顺着原型链一直向上查找，没有找到则返回null
+
+
+    // ------------------------------------------------------------------------------------------------------------------
+
+    // 继承：6种方式
+    // (1)原型链继承: 
+    // 缺点：子类的实例不能向父类型的构造函数中传递参数
+    // 复函数的属性成为了所有实例的公共属性，一个实例修改了属性，会影响所有实例
+    function Father(name, age) {
+      this.name = name;
+      this.age = age;
+      this.color = ['red', 'blue']
+    }
+    Father.prototype.work = function () {
+      console.log('engineer')
+    }
+
+    function Son1(height) {
+      this.height = height;
+    }
+    Son1.prototype = new Father('lihao', '18');
+    let instance1 = new Son1('180')
+    instance1.color.push('black') //一个实例修改了属性 会影响所有实例
+    console.log(instance1)
+
+    let instance2 = new Son1('175')
+    console.log(instance2)
+    // -------------------------------------------------------------------------------------------------------------------
+    // (2)构造函数继承：
+    //      只能继承父类的实例属性和方法，不能继承父类原型上的属性和方法
+    //      实例并不是父类的实例，而是子类的实例
+    function Son2(name, age, height) {
+      Father.call(this, name, age); //可以向父类构造函数中传递参数了
+      this.height = height
+    }
+    console.log(Son2.prototype)
+    let son2 = new Son2('lihao', '18', 180)
+    console.log(son2 instanceof Father) //false 实例不是父类的实例，而是子类的实例
+    console.log(son2.work)  //只能继承父类的实例属性和方法，不能继承父类原型上的属性和方法
+
+    let son22 = new Son2('lipi', 18, 175)
+    son22.color.pop(); // 一个实例修改属性，不影响其他实例
+    console.log(son22)
+    console.log(son22.work)
+    // ---------------------------------------------------------------------------------------------------------------------
+    // (3)组合继承：利用原型链实现对原型方法的继承，利用构造函数实现对实例属性的继承
+    // 缺点：调用两次父函数
+    function Son3(name, age, height) {
+      Father.call(this, name, age);
+      this.height = height;
+    }
+    Son3.prototype = new Father()
+    // ---------------------------------------------------------------------------------------------------------------------
+    // (4)原型继承 ：父类的实例被其他实例所共享
+    function createObj(obj) {
+      let F = function () { };
+      F.prototype = obj
+      return new F()
+    }
+    // (5)寄生式继承
+    function create_inherient(obj) {
+      // sub.__proto__ = obj
+      let sub = Object.create(obj);
+      // 增强对象，添加自己的属性和方法
+      sub.prototype.say = function () { };
+
+      return sub
+    }
+    // (6)寄生组合继承:借用构造函数来继承属性；借用原型链的混成形式来继承方法
+    // 父类
+    function Parent(name, age) {
+      this.name = name;
+      this.age = age;
+      this.children = ['zhangsan', 'lisi', 'wangwu']
+    }
+    Parent.prototype.say = function () {
+      console.log('hello')
+    }
+    // 子类
+    function AnotherParent(name) {
+      Parent.call(this, name)
+    }
+    // 实现继承
+    AnotherParent.prototype = new Parent()
+    AnotherParent.prototype.constructor = AnotherParent;
+    AnotherParent.prototype.sayName = function () {
+      console.log(thi.name)
+    }
+
+    // function inherientPrototype(Sub, Super) {
+    //   // subprototype.__proto__ = Super.prototype
+    //   let subprototype = Object.create(Super.prototype)
+    //   // 构造函数回指
+    //   subprototype.constructor = Sub;
+
+    //   console.log(subprototype)
+    //   Sub.prototype = subprototype;
+
+    // }
+
+    // function Parent(name, age) {
+    //   this.name = name;
+    //   this.age = age;
+    //   this.children = ['zhangsan', 'lisi', 'wangwu']
+    // }
+    // Parent.prototype.say = function () {
+    //   console.log('hello')
+    // }
+
+    // function AnotherParent(name) {
+    //   Parent.call(this, name)
+    // }
+    // inherientPrototype(AnotherParent, Parent);
+
+    // let pinstance = new AnotherParent('22222');
+    // console.log(pinstance)
+  </script>
+</body>
+
+</html>

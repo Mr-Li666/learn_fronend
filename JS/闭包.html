@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // https://blog.csdn.net/weixin_43586120/article/details/89456183
+    // 闭包：内部函数总是可以访问其所在的外部函数中声明的参数和变量。本质是在内部函数声明时，就拷贝了其复函数的作用域，形成一个作用域链
+    // 在js中至只有两种作用域：全局作用域 和 函数级作用域。函数在声明结束后，其内部的变量就被摧毁了，此时是无法访问到内部变量的。
+    // 闭包提供了这样一种方法，通过在函数内部再声明一个函数，然后return出去这个函数，这个函数就拷贝了父函数的作用域，就可以在外部进行访问了。
+    // 闭包的问题：
+    // 1. 函数内部引用的变量发生了变化
+    function fn() {
+      var arr = [];
+      for (var i = 0; i < 5; i++) {
+        arr[i] = function () {
+          // 在这一步 已经变成5
+          // console.log(i)
+          return i;
+        }
+      }
+      return arr;
+    }
+    var list = fn();
+    for (var i = 0, len = list.length; i < len; i++) {
+      console.log(list[i]());
+    }  //5 5 5 5 5、 而不是01234
+// 2. this指向问题
+    var name = "The Window";
+
+    var object = {
+      name: "My Object",
+
+      getNameFunc: function () {
+        return function () {
+          return this.name;
+        };
+
+      }
+
+    };
+
+    // alert(object.getNameFunc()());//this指向windows
+
+    var name = "The Window";
+
+    var object = {
+      name: "My Object",
+
+      getNameFunc: function () {
+        let that= this; // this指向myobject
+        return function () {
+          return that.name;
+        };
+
+      }
+
+    };
+
+    // alert(object.getNameFunc()());
+
+    // 3. 内存泄露：内部函数被return出来后，在执行完后，自身的变量被摧毁，但是一直带着父函数的变量，变量一直存在于内存中，造成内存泄露
+
+    // 使用场景：
+    // （1）防抖 节流
+    // （2）定时器
+    function outer() {
+      let i = 0;
+      return function () {
+        console.log(i++)
+      }
+    }
+    let f1 = outer();
+    let f2 = outer();
+    f1() //0
+    f1()//1
+    f2()//0
+    f2()//1
+  </script>
+</body>
+
+</html>

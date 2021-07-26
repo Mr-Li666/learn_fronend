@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 1. 迭代器: 是一个接口，为不同的数据结构提供统一的接口。 js中的数据结构包括 ： 数组 对象 map set。
+    //  任何数据结构只要部署了iterator接口， 就可以完成遍历操作，即依次处理该数据结构的每一个成员
+    let arr = [1, 5]
+    let ite = arr[Symbol.iterator]()
+    console.log(ite.next())
+    console.log(ite.next())
+    console.log(ite.next())
+
+    //  -------------------iterator的遍历过程：
+    // (1)创建一个指针，指向数据结构的起始位置。 所以遍历器的本质是一个指针对象
+    // (2)第一次调用指针的next方法，返回数据的第一个元素
+    // (3)第二次调用next方法，返回数据第二个元素
+    // (4)每次调用next方法，都会返回当前元素。最后返回{undefined， done：true}
+    function iterator(arr) {
+      let index = 0;
+      return {
+        next: function () {
+          if (index < arr.length) {
+            let obj = {
+              'value': arr[index],
+              'done': false
+            }
+            index++
+            return obj
+          } else {
+            return { undefined, 'done': true }
+          }
+        }
+      }
+    }
+    let itea = iterator(arr)
+    console.log(itea.next());
+    console.log(itea.next());
+
+    // 对象实现for of 遍历
+    function iterator_obj(obj) {
+      let keys = Object.keys(obj)
+      let index = 0
+      return {
+        next: function () {
+          if (index < keys.length) {
+            let res = { 'value': [keys[index], obj[keys[index]]], 'done': false }
+            index++
+            return res
+          } else {
+            return { undefined, 'done': true }
+          }
+        }
+      }
+    }
+    let obj = { 'key1': 'value1', 'key2': 'value2' }
+    let ite_obj = iterator_obj(obj)
+    console.log(ite_obj.next());
+    console.log(ite_obj.next());
+    console.log(ite_obj.next());
+
+    let object = {
+      'a': 11,
+      'b': 22,
+      'c': 33,
+      [Symbol.iterator]: function () {
+        let that = this;
+        let keys = Object.keys(that)
+
+        let index = 0
+        return {
+          next() {
+
+            if (index < keys.length) {
+              let res = { 'value': [keys[index], that[keys[index]]], 'done': false }
+              index++
+              return res
+            } else {
+              return { 'done': true }
+            }
+          }
+        }
+      }
+    }
+    let o = object[Symbol.iterator]()
+    console.log(o.next());
+    console.log(o.next());
+    console.log(o.next());
+    console.log(o.next());
+    // 2. for of 原理
+  </script>
+</body>
+
+</html>

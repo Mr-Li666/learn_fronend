@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 队列：先进先出FIFO  只允许在表的前端删除元素，在后端添加元素
+    class Quene{
+      constructor(){
+        this.item = []
+      }
+
+      // enquene()  向队列尾部里添加一个或多个元素
+      enquene(){
+        this.item.push(...arguments)
+      }
+      // dequene()  移出队列的第一项，并返回删除元素
+      dequene(){
+        return  this.item.shift()
+      }
+      // front()  返回队列中的第一个元素。不改变队列本身
+      front(){
+        return this.item[0]
+      }
+      // isEmpty() 判断队列是否为空
+      isEmpty(){
+        return this.item.length == 0
+      }
+      // size() 返回队列包含的元素个数
+      size(){
+        return this.item.length
+      }
+      // toString() 将队列中的内容转成字符串形式
+      toString(){
+        return this.item.join('')
+      }
+    }
+
+    let quene = new Quene()
+    quene.enquene(...[1,2,3])
+    console.log(quene)
+
+    // 击鼓传花
+    function passFlower(persons, number){
+      let quene = new Quene();
+      quene.enquene(...persons)
+      
+      while(quene.size() > 1){
+        for(let i = 1; i<number; i++){
+          let first = quene.dequene();
+          quene.enquene(first)
+        }
+        // 循环走完一次之后，数到第number的元素已经在最前了，删掉这个最前的就行
+        quene.dequene();
+      }
+
+      return quene.front()
+    }
+    let persons = [{'lihao1':1},{'lihao2':2},{'lihao3':3},{'lihao4':4},{'lihao5':5}]
+    console.log(passFlower(persons,3))
+  </script>
+</body>
+</html>

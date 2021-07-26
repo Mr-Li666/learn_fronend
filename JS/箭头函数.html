@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 箭头函数和普通函数的区别：
+    // -------------------------------------1. 箭头函数的this指向
+    // 普通函数：this永远指向 调用包含自己的这个函数所对应的对象， 与包含this的函数在哪里声明的无关。在运行时绑定的this
+    // 箭头函数的this指向声明该函数时所在的作用域, 而不是使用时所在的作用域。 在声明时绑定的this。
+    // 箭头函数没有自己的this，只会拷贝作用域链的this
+    a = 'windows'
+    let obj = {
+      a:'obj',
+      b:function(){
+        console.log(this.a)
+      },
+      c: ()=>{
+        // 拷贝作用域链的this，作用域链的this是windows， 而不是obj
+        console.log(this.a)
+      },
+      d:function(){
+        console.log(this.a)
+        // return ()=>{console.log(this.a) } // this指向obj，因为箭头函数的this是拷贝的父函数的
+        return function(){
+          console.log(this)  //this 指向windows
+        }
+      },
+      e:{
+        // 多层嵌套只是对象嵌套，这时候没有作用域链的嵌套
+        f:()=>{console.log(this.a)}
+      }
+    }
+    obj.b() // this指向obj
+    obj.c() // 因为c函数没有复函数包裹，this指向windows
+    obj.d()() // 指向obj
+    obj.e.f() //指向wimdows
+
+    // -----------------------------2. argumnets
+    // 箭头函数没有argumnets
+    function f1(a,b){
+      console.log(arguments)
+    }
+    let f2 = (a,b) => {
+      console.log(arguments) //argumnents is not defined
+    }
+    f1(1,2,3)
+    // f2(1,2,3)
+
+    // -----------------------------3. 箭头函数不能使用构造函数
+
+    // -----------------------------4. 使用call apply bind 不能修改this指向
+    let object = {
+      a:'obj'
+    }
+    function f3(){
+      let a = 'f3'
+      console.log(this.a)
+    }
+    let f4 = () => {
+      let a = 'f4'
+      console.log(this)
+    }
+    f3() //windows.  相当于windows.f3()
+    f3.call(object) // object
+    f4() // windows
+    f4.call(obj) // windows
+    // -------------------------------5. 箭头函数没有prototype对象
+    console.log(f3.prototype);
+    console.log(f4.prototype); //undefined
+  </script>
+</body>
+</html>

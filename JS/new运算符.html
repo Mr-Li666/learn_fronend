@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function Person(name,age) {
+      this.name = name;
+      this.age = age
+      this.sayHi = function () {
+        console.log('hi')
+      }
+      // return {'a':'???'}
+    }
+    Person.prototype.language = function () {
+      console.log('chinese')
+    }
+
+    let p = new Person('lihao',18)
+    console.log(p)
+
+    function New(F) {
+      // console.log(arguments)
+      let args = [...arguments].slice(1)
+      let object = {}
+      object.__proto__ = F.prototype
+      let result = F.call(object, ...args)
+      
+      // 如果构造函数有返回值，result是object。 没有返回值，result是undefined
+      return typeof result == 'object'?result:object
+      // return object
+    }
+    let p1 = New(Person,'lihao',18)
+    console.log(p1)
+    // new 运算符到底干了什么
+    // 1. 创建了一个新对象obj
+    // 2. 将构造函数的原型对象prototype指向为新对象object 的__proto__，所以通过new出来的实例，会带有__proto__，而没有prototype
+    // 3. 通过call方法或apply方法 将构造函数的属性和方法，挂载到新对象，this指向为新对象object
+    // 4. 如果构造函数返回的是对象，则直接返回。否则 返回新对象object. 
+    //    原因：通常构造函数是不返回值的。如果构造函数不返回值，那么返回新创建的对象object。 如果有返回值，返回构造函数的返回值result
+  </script>
+</body>
+</html>

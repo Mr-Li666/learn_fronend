@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    class Node{
+      constructor(data){
+        this.data = data;
+        this.next =null
+      }
+    }
+    class List{
+      constructor(){
+        this.head = null;
+        this.length = 0
+      }
+      // append 向列表的尾部添加一个新的项
+      append(data){
+        let node = new Node(data)
+        if(this.length){
+          let current = this.head
+          while(current.next){
+            current = current.next
+          }
+          current.next = node
+        }else{
+          this.head = node
+        }
+        this.length++
+      }
+      // insert(position,element) 向链表的特定位置添加一个新的元素
+      insert(position,element){
+        let node = new Node(element)
+        let current = this.head;
+        let pre = null
+        let point = 1;
+        if(position == 0){
+          this.head = node
+          node.next = current
+        }
+        if(this.length < position){
+          this.append(element)
+        }else{
+          while (current && point<position) {
+            pre = current
+            current = current.next
+            point++
+          }
+          pre.next = node
+          node.next = current
+        }
+        this.length++
+      }
+      // get(position) 获取对应位置的元素
+      get(position){
+        let current = this.head;
+        let point = 1;
+        if(position < 0) return false
+  
+        if(this.length < position){
+          return null
+        }else{
+          while(current && point<position){
+            current = current.next
+            point++
+          }
+          return current
+        }
+      }
+      // indexOf(element) 返回元素在列表中的索引，若无 则返回-1
+      indexOf(element){
+        let current = this.head
+        let point = 1;
+        while(current){
+          if(current.data == element){
+            return point
+          }else{
+            current = current.next;
+            point++
+          }
+          if(point > this.length){
+            return -1
+          }
+        }
+      }
+      // update(position,newData) 修改某个位置的元素
+      update(position,newData){
+        let point = 1;
+        let current = this.head;
+        if(position > this.length) return  false;
+        while (current && point < position) {
+          current = current.next;
+          point++;
+        }
+        if(point == position){
+          current.data = newData
+        }
+      }
+      // removeAt(position) 移除特定位置的元素
+      removeAt(position){
+        if(position > this.length) return false
+        let current = this.head
+        let pre = null;
+        let point = 1;
+        while(current && point<position){
+          pre = current;
+          current = current.next;
+          point++
+        }
+        if(point == position){
+          pre.next = current.next
+          current.next = null
+        }
+        this.length--
+      }
+      // isEmpty() 如果链表中不包含任何元素 则返回true
+      isEmpty(){
+        return this.length == 0
+      }
+      // size() 返回列表中包含的元素个数 与数组的length属性类似
+      size(){
+        return this.length
+      }
+      // toString() 
+      toString(){
+        let str = ''
+        let current = this.head
+        while(current){
+          str += current.data
+          current = current.next
+        }
+        return str
+      }
+    }
+  </script>
+</body>
+</html>

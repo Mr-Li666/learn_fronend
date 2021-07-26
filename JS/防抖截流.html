@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="debounce">
+    <div class="f">
+      <input type="text">
+      <span>未添加防抖功能时，函数被调用了多少次：</span>
+    </div>
+    <div class="t">
+      <input type="text">
+      <span>添加防抖功能时，函数被调用了多少次：</span>
+    </div>
+
+  </div>
+
+  <div class="throttle">
+    <div class="t">
+      <input type="text">
+      <span>添加截流功能时，函数被调用了多少次：</span>
+    </div>
+  </div>
+  <script>
+    let f_debounce = document.getElementsByClassName('debounce')[0].firstElementChild.children[0]
+    let f_debounce_span = document.getElementsByClassName('debounce')[0].firstElementChild.children[1]
+    let f_debounce_num = 0
+    let f_debounce_innertext = f_debounce_span.innerHTML;
+    // 未添加防抖截流时
+    f_debounce.addEventListener('input', (e) => {
+      console.log(e.target)
+      console.log('111')
+      f_debounce_num++
+      f_debounce_span.innerHTML = f_debounce_innertext + f_debounce_num
+    })
+    // --------------------------------------------------------------------------------------------------------------------
+    // 添加防抖：只会执行最后一次
+    let t_debounce = document.getElementsByClassName('debounce')[0].lastElementChild.children[0]
+    let t_debounce_span = document.getElementsByClassName('debounce')[0].lastElementChild.children[1]
+    let t_debounce_num = 0
+    let t_debounce_innertext = t_debounce_span.innerHTML;
+
+    function debounce(fn, timeout) {
+      let time = null;
+      return function () {
+        let _this = this;
+        let args = arguments;
+        console.log(_this, args)
+        clearTimeout(time);
+        time = setTimeout(() => {
+          fn.call(_this,...args)
+          // fn()
+        }, timeout);
+      }
+    }
+    t_debounce.addEventListener('input', debounce(function(){
+      console.log(this);//this指向当前的DOM元素
+      t_debounce_num++
+      t_debounce_span.innerHTML = t_debounce_innertext + t_debounce_num
+      console.log(t_debounce_num)
+    }, 1000))
+    // -------------------------------------------------------------------------------------------------------------------------
+    // 添加截流: 每隔固定时间就执行一次
+    // 2种方式。 （1）借助setTimeout （2）时间戳
+    let t_throttle = document.getElementsByClassName('throttle')[0].lastElementChild.children[0]
+    let t_throttle_span = document.getElementsByClassName('throttle')[0].lastElementChild.children[1]
+    let t_throttle_num = 0
+    let t_throttle_innertext = t_throttle_span.innerHTML;
+
+    // 借助settimeout
+    // function throttle(fn, timeout) {
+    //   let go = false;
+    //   return function () {
+    //     if(go){
+    //       return 
+    //     }
+    //     go = true;
+    //     setTimeout(() => {
+    //       fn()
+    //       go = false;
+    //     }, timeout);
+    //   }
+    // }
+    
+    // 时间戳
+    function throttle(fn, timeout) {
+      let pretime = 0;
+      return function () {
+        let that = this;
+        let args = arguments;
+        console.log(this);
+        console.log(arguments);
+        let nowTime = new Date();
+        // console.log(nowTime-pretime)
+        if(nowTime - pretime > timeout){
+          fn.call(that, ...args);
+          pretime = new Date()
+        }
+      }
+    }
+    t_throttle.addEventListener('input', throttle(() => {
+      t_throttle_num++
+      t_throttle_span.innerHTML = t_throttle_innertext + t_throttle_num
+      console.log(t_throttle_num)
+    }, 1000))
+
+
+
+    // 防抖：只执行最后一次函数
+    function fangdou(fn, timeout) {
+      let time = null 
+      return function () {
+        let that = this;
+        let args = arguments;
+        clearTimeout(time)
+        time = setTimeout(() => {
+          fn.call(that, args)
+        }, timeout);
+      }
+    }
+
+    // 截流： 每隔规定的时间就执行一次。 两种方式：  settimeout  时间戳
+
+    function jieliu(fn, timeout) {
+      let preTime = 0;
+      return function () {
+        let nowTime = new Date()
+        if(nowTime - preTime >= timeout){
+          fn.call()
+          preTime = new Date()
+        }
+      }
+    }
+
+    function jieliu2(fn, timeout) {
+      let go = false;
+      return function () {
+        if(go){
+          return 
+        }
+        go = true
+        setTimeout(() => {
+          fn.call()
+          go = false 
+        }, timeout);
+      }
+    }
+  </script>
+</body>
+
+</html>

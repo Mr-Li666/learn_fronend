@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    class Node {
+      constructor(key) {
+        this.left = null;
+        this.right = null;
+        this.key = key;
+      }
+    }
+
+    class BinarySerachTree {
+      constructor() {
+        this.root = null
+        this.preOrderStr = ''
+        this.inOrderStr = ''
+        this.postOrderStr = ''
+      }
+
+      // insert 插入节点
+      insert(key) {
+        let newNode = new Node(key)
+        if (this.root == null) {
+          this.root = newNode
+        } else {
+          this.insertNode(this.root, newNode)
+        }
+      }
+      // insert(key) {
+      //   let newNode = new Node(key)
+
+      //   if (this.root == null) {
+      //     this.root = newNode
+      //   } else {
+      //     let current = this.root
+      //     while (current) {
+      //       if (newNode.key > current.key) {
+      //         // 向右边插入
+      //         if (current.right == null) {
+      //           current.right = newNode
+      //           break;
+      //         } else {
+      //           current = current.right
+      //         }
+      //       } else {
+      //         // 向左边插入
+      //         if (current.left == null) {
+      //           current.left = newNode
+      //           break;
+      //         } else {
+      //           current = current.left
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
+      insertNode(node, newNode) {
+        if (newNode.key > node.key) {
+          // 向右边插入
+          if (node.right == null) {
+            node.right = newNode
+          } else {
+            this.insertNode(node.right, newNode)
+          }
+        } else {
+          // 向左边插入
+          if (node.left == null) {
+            node.left = newNode
+          } else {
+            this.insertNode(node.left, newNode)
+          }
+        }
+      }
+      // search(key) 查找该节点
+      search(key) {
+        if (this.root == null) return false;
+        let current = this.root
+        while (current) {
+          if (current.key > key) {
+            // 向左查找
+            if (current.left) {
+              current = current.left
+            } else {
+              console.log('左边无此节点')
+              return false
+            }
+          } else if (current.key < key) {
+            // 向右查找
+            if (current.right) {
+              current = current.right
+            } else {
+              console.log('右边无此节点')
+              return false
+            }
+          } else if (current.key == key) {
+            // 找到该节点
+            console.log(current.key)
+            return true
+          } else {
+            return false
+          }
+        }
+      }
+      // 先序遍历 preOrderTraverse
+
+      preOrderTraverse() {
+        this.preOrder(this.root)
+        return this.preOrderStr
+      }
+      preOrder(node) {
+        if (node) {
+          this.preOrderStr = this.preOrderStr + node.key + '->'
+          this.preOrder(node.left)
+          this.preOrder(node.right)
+        }
+      }
+      // 中序遍历 inOrderTraverse
+      inOrderTraverse() {
+        this.inOrder(this.root)
+        return this.inOrderStr
+      }
+      inOrder(node) {
+        if (node) {
+          this.inOrder(node.left)
+          this.inOrderStr = this.inOrderStr + node.key + '->'
+          this.inOrder(node.right)
+        }
+      }
+      // 后序遍历 postOrderTraverse
+      postOrderTraverse() {
+        this.postOrder(this.root)
+        return this.postOrderStr
+      }
+      postOrder(node) {
+        if (node) {
+          this.postOrder(node.left)
+          this.postOrder(node.right)
+          this.postOrderStr = this.postOrderStr + node.key + '->'
+        }
+      }
+
+      // 最小值
+      min(){
+        let current = this.root
+        while (current.left) {
+          current = current.left
+        }
+        return current.key
+      }
+      // 最大值
+      max(){
+        let current = this.root
+        while (current.right) {
+          current = current.right
+        }
+        return current.key
+      }
+
+      // 深度优先搜索
+      dfs(){
+        let string = '->'
+        return this.dfs_recursionFunc(string, this.root)
+      }
+      dfs_recursionFunc(str,node){
+        let string = str;
+        if(node){
+          string = string + node.key + '->'
+          this.dfs_recursionFunc(string,node.left)
+          this.dfs_recursionFunc(string,node.right)
+        }
+        return string
+        
+      }
+      // 广度优先搜索
+
+
+    }
+
+    // 测试代码
+    var bst = new BinarySerachTree()
+
+    // 插入数据
+    bst.insert(11)
+    bst.insert(7)
+    bst.insert(15)
+    bst.insert(5)
+    bst.insert(3)
+    bst.insert(9)
+    bst.insert(8)
+    bst.insert(10)
+    bst.insert(13)
+    bst.insert(12)
+    bst.insert(14)
+    bst.insert(20)
+    bst.insert(18)
+    bst.insert(25)
+    console.log(bst)
+    // console.log(bst.search(10))
+    console.log('先序遍历' + bst.preOrderTraverse())
+    console.log('中序遍历' + bst.inOrderTraverse())
+    console.log('后序遍历' + bst.postOrderTraverse())
+    // console.log(bst.min())
+    // console.log(bst.max())
+    console.log('深度优先搜索：' + bst.dfs())
+  </script>
+</body>
+
+</html>

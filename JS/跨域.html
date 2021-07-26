@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  同源：协议  端口  域名相同
+  同源策略限制了以下行为：
+    cookie  localstorage indexDB无法读取
+    DOM   JS对象无法获取
+    AJAX请求发不出去
+    <!-- 解决跨域的方法 -->
+  <!-- 1. document.domain ： 主域名相同时才能使用这种方法-->
+  <!-- a页面要获取b页面的数据，存在跨域时： -->
+  <script>
+    // 在a页面设置document.domain = a.com
+    document.domain = 'a.com'
+    let frame = document.createElement('iframe');
+    frame.src = 'b-url'; // b页面的地址
+    frame.onload = function loading() {
+      console.log(document.contentWindow) //获取frame页面的window对象
+      // 发送ajax请求
+    }
+    // 在b页面也设置为document.domain = a.com
+  </script>
+
+  <!-- 2. jsonp:创建script标签 -->
+  <script>
+    function crossDomain(url, callback) {
+      let script = document.createElement('script')
+      script.src = url + `callback=${callback}`
+
+      document.body.appendChild(script)
+    }
+    // callback是与后端协商好的回调函数
+    crossDomain('http://example.com/data.php?', function fn(data){
+      // 从另一个界面拉取过来的数据
+      console.log(data)
+    })
+  </script>
+
+  <!-- 3. CORS: 在服务端设置Access-control-Allow-Origin字段，客户端的设置就是正常的AJAX请求 -->
+  <script>
+    function CreateCORS(method,url,boolean) {
+      let xhr = new XMLHttpRequest();
+      // cors请求默认不发送cookie，前端设置是否带cookie
+      xhr.withCredentials = boolean || false;
+
+      xhr.open(method,url);
+      xhr.setRequestHeader('Content-Type','')
+      xhr.send();
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState == 4){
+          if(xhr.status == 200 || xhr.status == 304){
+            console.log(xhr.responseText)
+          }
+        }
+      }
+    }
+  </script>
+  <!-- 4. window.postMessage(message, targetOrigin): 向外界窗口发送信息 -->
+  <script>
+  
+  // 在a.com/index.html
+    let frame = document.createElement('iframe');
+    frame.src = 'b.com/index.html';
+    document.body.appendChild(frame);
+    
+    let message = 'hello, I am a';
+    let targetOrigin = 'http://b.com'
+    frame.contentWindow.postMessage(message, targetOrigin)
+  // 在b.com/index.html
+  window.addEventListener('message',(event)=>{
+    if(event.origin == 'http://a.com'){
+      console.log(event.data)
+    }
+  })
+</script>
+</body>
+</html>

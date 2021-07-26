@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  父元素 
+      dilsplay：flex； 设为flex后，子元素的float verticle-align clear属性将失效
+               行内元素也可以设定flex ： display：inline-flex
+      flex-direction: 决定item的排列方向。row/ row-reverse/ column/ column-reverse
+
+      flex-wrap: 项目通常排列在一条轴线上。该属性决定当一条轴上放不开时 是否换行。
+                no-wrap/ wrap/ wrap-reverse
+      flex-flow: flex-direction和flex-wrap的缩写。 默认为row no-wrap
+
+      justify-content: 决定了item水平方向的排列
+              flex-start: 左对齐
+              flex-end: 右对齐
+              center: 居中
+              space-between: 两端对齐，项目之间的距离相等
+              space-around:每个项目两侧的间隔相等。所以项目之间的距离 比 项目到边框的距离 大一倍
+
+      align-item: 定义项目在纵轴上如何对齐
+            center： 垂直居中
+            flex-start: 上对齐
+            flex-end:下对齐
+            baseline: 基线对齐
+            stretch: 如果item未设置高度，或者设为auto， item将被拉伸延长至整个屏幕
+      align-content：定义了多根轴线时，项目的对齐方式。
+                      当一行放不下时，设置换行了，此时就产生了多条轴线
+
+  子元素：item
+      order: 设置权重，定义排列顺序。权重大的在前
+      flex-grow: 项目是否进行放大。默认为0，即存在剩余空间也不放大.flex-grow 不为0时，会根据放大比例占据全部空间。
+      flex-shrink:项目是否缩小。默认为1，即若剩余空间不足，项目会被压缩。为0时，表示即使剩余空间不足，该项目比例也不压缩
+      flex-basis:项目占据主轴的空间。默认为auto，即项目本来的大小、 可以设置为和width height一样的值。
+                  使用min-width max-width来限制flex-basis大小
+                  如果没有width，flex-basis默认为item的content大小
+                  如果有width，最终还是看flex-basis的大小。设置了flex-basis后，width属性失效
+      flex: flex-grow + flex-shirink + flex-basis .默认为0 1 auto
+            auto：1 1 auto    none:0 0 auto
+
+      align-self:单个项目的对齐方式。可以与其它项目有不一样的对齐方式，可以覆盖align-item属性。
+                默认值为auto，表示继承父元素align-item属性
+                如果没有父元素，则等同于stretch
+      <ul>
+        <li style="background: chartreuse;">1111</li>
+        <li style="background:chocolate;">2222</li>
+        <li style="background:coral; flex-grow: 1;">3333</li>
+        <li style="background:cornflowerblue; flex-grow: 1;">4444</li>
+        <li style="background:crimson;">5555</li>
+        <li style="background: rgb(140, 0, 255);">666</li>
+        <li style="background: rgb(0, 174, 255);">777</li>
+        <li style="background: rgb(255, 0, 0);">888</li>
+        <li style="background: rgba(205, 218, 192, 0);flex-basis: 100px;"></li>
+        <li style="background: rgb(23, 180, 102); flex-grow: 1;">0000</li>
+      </ul>
+
+      <div class="test_basis">
+        <div class="item" style="background: rgb(219, 38, 69);">1111</div>
+        <div class="item" style="background: rgb(219, 186, 38);">2222</div>
+        <div class="item" style="background: rgb(81, 228, 61);">3333</div>
+        <div class="item" style="background: rgb(45, 133, 173);">4444</div>
+      </div>
+      <style>
+        ul{
+          width: 150px;
+          height: 300px;
+          list-style: none;
+          display: flex;
+          flex-wrap: wrap;
+          /* align-content: flex-start; */
+        }
+
+        /* 测试flex-basis和width的区别 */
+        .test_basis{
+          width: 1000px;
+          height: 200px;
+          border: 1px solid black;
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .item{
+          
+          width: 250px;
+          flex-basis: 100px;
+          height: 200px;
+        }
+      </style>
+      <script>
+        let ul = document.getElementsByTagName('ul')[0];
+        console.log(ul)
+        ul.addEventListener('click',(e)=>{
+          console.log(e.target.style);
+          e.target.style.order = -1
+        })
+      </script>
+</body>
+</html>

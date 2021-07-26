@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 思路：插入排序首先是要有一部分元素是已经排好序的，可以假设第一个元素是已经排好序的，从第二个元素开始排序。
+    //      从第二个元素开始，与前面的元素两两比较，如果该元素小，就将元素前移，然后大的元素后移，知道找到比该元素小的位置，停止移动
+    function changePosition(i,j,arr){
+      let temp = arr[i]
+      arr[i] = arr[j]
+      arr[j] = temp
+    }
+
+    // function insertSort(arr){
+    //   let length = arr.length
+    //   for(let i = 1; i<length; i++){ //i=7
+    //     let temp = arr[i]
+    //     for(let j = i-1; j>=0; j--){ //j=6
+    //       if(temp < arr[j]){
+    //         arr[j+1] = arr[j]
+    //         if(j == 0){
+    //           arr[0] = temp
+    //           break
+    //         }
+    //       }else{
+    //         arr[j+1] = temp
+    //         break;
+    //       }
+    //     }
+    //   }
+
+    //   return arr
+    // }
+    function insertSort(arr){
+      let length = arr.length;
+      for(let i = 1; i< length; i++){
+        let temp = arr[i]
+        let j = i-1
+        while (j>=0 && temp < arr[j]) {
+          arr[j+1] = arr[j]
+          j--
+        }
+        // 到这一步，说明找到了temp要插入的位置
+        arr[j+1] = temp
+      }
+    }
+// [3, 5, 6, 8, 9, 10, 11, 2, 4]
+    let arr = [3, 5, 10, 9, 11, 8, 6, 2, 4]
+    console.log(insertSort(arr))
+  </script>
+</body>
+</html>

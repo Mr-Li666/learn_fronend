@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  1. 几种数值类型：
+  number、 string 、 undefined、 null、 Boolean、symbol
+
+  2. 判断类型：
+  (1) typeof : null是object， 判断数组和对象是也是object,判断函数返回function
+  (2) instanceof ：XX是XX的一个实例。a=new A(), a instanceof A 返回true。
+  原理是 Object.getPrototypeOf(a) = A.prototype。
+  不能识别出基本数据类型, 通常用来检测对象类型，以及判断继承关系
+  (3) Object.prototype.toString.call(): 对于所有的数据类型都能判断，包括undefined和null
+  (4) Array.isArray() : 判断数组
+  (5) constructor: 不安全，因为constructor的指向可能被改变
+  <script>
+    console.log(typeof null)
+    console.log(typeof function fun() { })  //function
+
+    // console.log(bool instanceof Boolean);// false
+    // console.log(num instanceof Number);// false
+    // console.log(str instanceof String);// false
+    // console.log(und instanceof Object);// false
+    // console.log(nul instanceof Object);// false
+    // console.log(arr instanceof Array);// true
+    // console.log(obj instanceof Object);// true
+    // console.log(fun instanceof Function);// true
+    // console.log(s1 instanceof Symbol);// false
+
+    console.log(Object.prototype.toString.call(null))
+    console.log(Object.prototype.toString.call(undefined))
+    console.log(Object.prototype.toString.call(true))
+    console.log(Object.prototype.toString.call('1'))
+
+    let boo = true;
+    function A() { };
+    boo = new A()
+    console.log(boo.constructor)
+    console.log(boo.constructor === Boolean)
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function setCookie(key,value,time){
+      let date = new Date()
+      date.setDate(time + date.getDate())
+      document.cookie = `${key}=${value};expires=${date}`
+    }
+
+    // cookie可以设置的属性
+//     name　　字段为一个cookie的名称。
+
+// value　　字段为一个cookie的值。
+
+// domain　　字段为可以访问此cookie的域名。
+
+// path　　字段为可以访问此cookie的页面路径。比如domain是abc.com,path是/test，那么只有/test路径下的页面可以读取此cookie。
+
+// expires/Max-Age 　　字段为此cookie超时时间。若设置其值为一个时间，那么当到达此时间后，此cookie失效。不设置的话默认值是Session，意思是cookie会和session一起失效。当浏览器关闭(不是浏览器标签页，而是整个浏览器) 后，此cookie失效。
+
+// Size　　字段 此cookie大小。
+
+// http　　字段 cookie的httponly属性。若此属性为true，则只有在http请求头中会带有此cookie的信息，而不能通过document.cookie来访问此cookie。
+
+// secure　　 字段 设置是否只能通过https来传递此条cookie
+
+
+  </script>
+</body>
+</html>

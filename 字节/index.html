@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="d">
+    <div></div>
+    <div></div>
+  </div>
+  <!-- 1. transform会引起重排吗：不会。transform产生的图层是由GPU开启的一个新的复合图层，不会影响原先文档流的变化，属性的改变会交给GPU来处理
+          使GPU开启新图层的属性还有：动画animation、transition、opacity
+          -->
+  <style>
+    #d div {
+      width: 100px;
+      height: 100px;
+      background: red;
+      margin: 10px auto 30px;
+      padding: 10px 20px 30px 40px;
+    }
+  </style>
+  <script>
+    // let arr = [3, 2, 6, 1, 8, 4, 9, 5]
+    let arr = [9,8,7,6,5,4,3,2,1]
+    
+    // 冒泡排序
+    function bubble(arr) {
+      let length = arr.length;
+      while (length) {
+        for (let i = 0; i < length - 1; i++) {
+          if (arr[i] > arr[i + 1]) {
+            // 交换位置
+            [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]]
+          }
+        }
+        length--
+      }
+      console.log(arr)
+    }
+    bubble(arr)
+
+    // 选择排序
+    function chooseSort(arr) {
+      let length = arr.length
+      for (let i = 0; i < length; i++) {
+        let small = i
+        for (let j = i + 1; j < length; j++) {
+          if (arr[j] < arr[i]) {
+            small = j
+          }
+        }
+        // 交换位置
+        [arr[i], arr[small]] = [arr[small], arr[i]]
+      }
+
+      console.log(arr);
+    }
+    chooseSort(arr)
+
+    // 插入排序
+    function insertSort(arr) {
+      let length = arr.length
+      for (let i = 1; i < length; i++) {
+        let current = arr[i]
+        let j = i - 1
+        while (j >= 0 && arr[j] > current) {
+          arr[j + 1] = arr[j]
+          j--
+        }
+        arr[j + 1] = current
+      }
+      console.log(arr)
+    }
+    insertSort(arr)
+
+    // 快速排序
+    function findCenter(arr, left, right) {
+      let center = Math.floor((left + right) / 2)
+      if (arr[left] > arr[right]) {
+        // 左右交换位置
+        [arr[left], arr[right]] = [arr[right], arr[left]]
+      }
+      if (arr[left] > arr[center]) {
+        // 交换位置
+        [arr[left], arr[center]] = [arr[center], arr[left]]
+      }
+      if (arr[center] > arr[right]) {
+        // 交换位置
+        [arr[center], arr[right]] = [arr[right] > arr[center]]
+      }
+
+      return arr[center]
+    }
+
+    function quickSort(arr) {
+      _quick(arr, 0, arr.length - 1)
+      console.log(arr)
+    }
+    function _quick(arr, left, right) {
+      if(left >= right) return
+      let center = findCenter(arr, left, right)
+      let leftPoint = left
+      let rightPoint = right
+
+      while (leftPoint < rightPoint) {
+        while (arr[leftPoint] < center) {
+          leftPoint++
+        }
+        while (arr[rightPoint] > center) {
+          rightPoint--
+        }
+        if (leftPoint < rightPoint) {
+          // 交换位置
+          [arr[leftPoint], arr[rightPoint]] = [arr[rightPoint], arr[leftPoint]]
+        }
+      }
+      let centerPosition = arr.indexOf(center)
+      _quick(arr, left, centerPosition-1)
+      _quick(arr, centerPosition+1, right)
+    }
+    quickSort(arr)
+  </script>
+</body>
+
+</html>

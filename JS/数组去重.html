@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let arr = [1, 1, 3, 3, 2, 5, 6, 4, 3, 1]
+
+    // 1. filter
+    let arr2 = arr.filter((item, index) => {
+      return arr.indexOf(item) === index
+    })
+    // console.log(arr2)
+
+    // 2. reduce:reduce函数接收两个参数，第一个参数是函数，第二个参数是传递给函数的初始值。
+    //     reduce(function(total, currentValue, currentIndex, array){}, initialValue)
+    //    total: 必需。（初始值，或者计算结束后的返回值。） 第一次循环时表示传过来的初始值，后面的循环表示上一次函数调用结束时的返回值
+    //    currentValue: 必需。 当前元素
+    //    cuurentIndex: 可选。 当前元素索引
+    //    array: 可选。 当前元素所处的数组
+    let arr3 = arr.reduce((result, currentValue, currentIndex, array) => {
+      console.log(result)
+      console.log(currentValue)
+      console.log(currentIndex)
+      console.log(array)
+
+      if (!result.includes(currentValue)) {
+        result.push(currentValue)
+      }
+
+      return result
+    }, [])
+    console.log(arr3)
+
+    // reduce的变相操作
+    // let result = []
+    // arr.forEach((item) => {
+    //   if (!result.includes(item)) {
+    //     result.push(item)
+    //   }
+    // })
+    // console.log(result)
+
+    // 3. ES6中的set
+    console.log([...new Set(arr)])
+
+    
+  </script>
+</body>
+
+</html>

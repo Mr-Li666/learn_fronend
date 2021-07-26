@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let str = 'hello world';
+    // 1. split:
+    console.log(str.split(' ')) 
+
+    // 2. substring(start，end) ： 不接受负参数.包含start 不包含end
+    console.log(str.substring(1,5))
+
+    // 3. substr(start,length)
+    console.log(str.substr(2,5))
+
+    // 4.indexOf
+    // 5.charAt(index): 返回指定下标的字符串
+    console.log(str.charAt(1))
+    // 6.charCodeAt(index) : 返回该指定下标字符串的unicode
+    console.log(str.charCodeAt(1))
+  </script>
+</body>
+</html>

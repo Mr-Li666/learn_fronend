@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    //  proxy: 拦截器。 要访问对象，必须先经过proxy
+    // new Proxy(target, handler:function): target表示要拦截的目标对象； handler： 对象。用于定制拦截行为
+    // proxy支持的拦截操作：
+    // 1. get(target, property, receiver)
+    // 2. set(target, property, value, receiver)
+    // 3. apply(target, context, args) : 对函数进行拦截操作
+
+    // proxy中的this： this指向proxy
+    let target = {
+      'a':1,
+      'b':2,
+      'c':3
+    }
+    let proxy = new Proxy(target, {
+      get(target, property, receiver){
+        console.log(target, property, receiver)
+        if(target[property]){
+          console.log(`你访问了${property}属性`)
+          return target[property]
+        }else{
+          throw new ReferenceError("Prop name \"" + property + "\" does not exist.");
+        }
+      },
+      set(target, key, value, receiver){
+        console.log(`你设置了${key}属性为${value}`);
+        target[key] = value
+      }
+    })
+    proxy.d = 'ddd'
+    console.log(target)
+    proxy.d
+    
+    let f1 = function(a,b){
+      console.log('我是一个函数');
+      return a+b
+    }
+    let p1 = new Proxy(f1, {
+      apply(target, context, args){
+        console.log( context, args)
+        return [...args].filter(item => item>2)
+      }
+    })
+    // p1(1,2)
+    let obj = {'a':1,
+      'b':2,
+      'c':3}
+   console.log(p1.call(obj, 2,3)); 
+  </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const obj = {
+    name: 'xialei',
+    id: 1,
+    [Symbol.iterator]: function () { // 迭代器属性
+        const keys = Object.keys(this); // 读取对象键列表
+        let keyIndex = 0; // 遍历未知
+        const self = this; // 保存this，next中的function会有自己的this
+        return { // 返回带有next()的对象
+            next: function () {
+                if (keyIndex < keys.length) { // 防止越界
+                    const key = keys[keyIndex];
+                    keyIndex++; // 移动到下一个位置
+                    return {
+                        value: [key, self[key]], // 键值对数组
+                        done: false
+                    }
+                }
+                return { // 遍历结束
+                    done: true
+                }
+            }
+        }
+    }
+};
+let io = obj[Symbol.iterator]()
+console.log(io.next())
+console.log(io.next())
+console.log(io.next())
+
+let arr = [1,2,3]
+let it = arr[Symbol.iterator]()
+console.log(it.next())
+console.log(it.next())
+console.log(it.next())
+console.log(it.next())
+  </script>
+</body>
+</html>

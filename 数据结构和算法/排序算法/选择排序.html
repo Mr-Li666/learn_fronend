@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 思路：从第一个元素开始，将第一个元素与后面的每一个元素两两比较，经过第一次循环，选出最小的元素，将该元素放在第一个位置，
+    //        第二次循环时，就将第二个元素与后面的元素比较，选出第二小的元素，放在第二个位置。  依次类推
+    function chooseSort(arr){
+      let length = arr.length
+      for(let i = 0; i < length-1; i++){
+        // 先设置一个标志位，假设最初的位置为最小的
+        let smaller = i;
+        for(let j = i+1; j<length; j++){
+          if(arr[j] < arr[smaller]){
+            // 碰见更小的，就更换标志位。
+            smaller = j;
+          }
+        }
+        // 第一次循环结束后，将第一个位置和最小的元素（带有标志位的元素）进行互换
+        changePosition(i, smaller, arr)
+      }
+      return arr
+    }
+    function changePosition(i , j, arr){
+      let temp = arr[i]
+      arr[i] = arr[j]
+      arr[j] = temp
+    }
+
+    let arr = [3, 5, 10, 9, 11, 8, 6, 2, 4]
+    console.log(chooseSort(arr))
+  </script>
+</body>
+</html>

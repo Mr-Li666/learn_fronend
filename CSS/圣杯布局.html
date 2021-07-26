@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- 圣杯布局的要求： -->
+  <!--1. header和footer各自占领屏幕所有宽度，高度固定。
+                          2. 中间的container是一个三栏布局。
+                          3. 三栏布局两侧宽度固定不变，中间部分自适应自动填充整个区域。
+                          4. 中间部分的高度是三栏中最高的区域的高度。 -->
+  <!-- <div class="header">header</div>
+  <div class="container">
+    <div class="left">left</div>
+    <div class="center">centercentercentercentercentercentercentercentercentercentercentercentercentercentercentercenter</div>
+    <div class="right">right</div>
+  </div>
+  <div class="footer">footer</div>
+  <style>
+    body,div{
+      margin: 0;
+      padding: 0;
+    }
+    .header, .footer{
+      background: lightcoral;
+      height: 100px;
+      line-height: 100px;
+      text-align: center;
+    }
+    .container{
+      display: flex;
+    }
+    .container .left{
+      height: 100px;
+      width: 150px;
+      background: lightskyblue;
+    }
+    .container .center{
+      background:goldenrod;
+      height: 200px;
+      flex: 1;
+      /* 控制文本换行 */
+      /* word-wrap: break-word; */
+      word-break: break-all;
+    }
+    .container .right{
+      height: 150px;
+      width: 150px;
+      background:gray;
+    } 
+  </style> -->
+  <div class="header">header</div>
+  <div class="container">
+    <div class="center">centercentercentercentercentercenntercentercentercentercentercentercentercentercentercenter</div>
+    <div class="left">left</div>
+    <div class="right">right</div>
+  </div>
+  <div class="footer">footer</div>
+  <style>
+    .header, .footer{
+      background: lightcoral;
+      height: 100px;
+      line-height: 100px;
+      text-align: center;
+    }
+    .container .left{
+      background: lightskyblue;
+      width: 100px;
+      height: 100px;
+      /* 1. 三部分都设置为浮动，并将中间部分的宽度设置为100% */
+      float: left;
+      /* 2. 利用margin-left，分别将左右两部分移到上面，和center处于相同位置 */
+      margin-left: -100%;
+
+      /* 5. 利用relative，将左右进行移动 */
+      position: relative;
+      left: -100px;
+    }
+    .container .center{
+      background: goldenrod;
+      width: 100%;
+      float: left;
+    }
+    .container .right{
+      background: gray;
+      width: 150px;
+      height: 150px;
+      float: left;
+      margin-left: -150px;
+      position: relative;
+      right: -150px;
+    }
+    /* 3. 清除浮动 */
+    .container::after{
+      content: '';
+      display: block;
+      clear: both;
+    }
+    /* 4. 为了不使左右对中间进行遮挡，使用padding，此时会发现左右两边有了空白 */
+    .container{
+      padding-left: 100px;
+      padding-right: 150px;
+    }
+  </style>
+</body>
+
+</html>

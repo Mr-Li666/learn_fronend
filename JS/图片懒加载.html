@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root">
+      <div>
+          <img class="my-photo" data-src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2941422260,1175262417&fm=26&gp=0.jpg" alt="loading">
+      </div>
+      <div>
+          <img class="my-photo" data-src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=400366871,2896338116&fm=26&gp=0.jpg" alt="loading">
+      </div>
+      <div>
+          <img class="my-photo" data-src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4168376979,4285764044&fm=26&gp=0.jpg" alt="loading">
+      </div>
+      <div>
+          <img class="my-photo" data-src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2677686168,2645624277&fm=26&gp=0.jpg" alt="loading">
+      </div>
+      <div>
+          <img class="my-photo" data-src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2748097191,2489333436&fm=26&gp=0.jpg" alt="loading">
+      </div>
+      <div>
+          <img class="my-photo" data-src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3804075366,3297165686&fm=26&gp=0.jpg" alt="loading">
+      </div>
+      <div>
+          <img class="my-photo" data-src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1723392558,3530219961&fm=26&gp=0.jpg" alt="loading">
+      </div>
+  </div>
+</body>
+
+<script>
+  //文档加载好之后就检查有无图片需要加载
+window.onload = checkImgs;
+// document.ready=checkImgs;
+ 
+//滚动后触发节流函数
+window.onscroll = throttle;
+ 
+//检查图片是否进入可视区域
+function isInSight(el) {
+    console.log(el);
+    
+    const clientHeight = document.documentElement.clientHeight;
+    const offsetTop = el.offsetTop;
+    const scrollTop = document.getElementById('root').scrollTop;
+    return (offsetTop - scrollTop) <= clientHeight + 50; 
+}
+ 
+//对所有所有没有加载的图片进行检查
+let index = 0;
+function checkImgs() {
+  const imgs = document.getElementsByClassName('my-photo');
+  for (let i = index; i < imgs.length; i++) {
+    if (isInSight(imgs[i])) {
+      loadImg(imgs[i]);
+      index = i;
+    }
+  }
+}
+ 
+//加载图片src
+function loadImg(el) {
+  if (!el.src) {
+    const source = el.dataset.src;
+    el.src = source;
+  }
+}
+ 
+//这里使用了函数节流，防止多次触发，影响效率
+var canrun = true;
+function throttle() {
+    if (!canrun) {
+        return;
+    }
+    canrun = false;
+    setTimeout(() => {
+        checkImgs();
+        canrun = true;
+    }, 200);
+}
+</script>
+</html>

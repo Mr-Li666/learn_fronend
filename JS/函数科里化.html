@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 科里化： 把原先接收多个参数的函数变成接收单个参数的函数
+    // bind方法的实现原理就是科里化
+    // Function.prototype.bind = function (context) {
+    //   let args = [...arguments].slice(1)
+    //   let that = this;
+    //   return function () {
+    //     that.apply(context, args)
+    //   }
+    // }
+
+    function curring(fn, params) {
+      let args = [...arguments].slice(1)
+
+      return function () {
+        let newArgs = args.concat(...arguments)
+        // console.log(newArgs)
+        if (newArgs.length < fn.length) {
+          // 递归调用收集参数
+          return curring(fn, ...newArgs)
+        }
+
+        // 收集完毕后，执行函数
+        return fn.apply(this, newArgs)
+      }
+    }
+
+    function sum(a, b, c) {
+      return a + b + c
+    }
+
+    let sum1 = curring(sum)
+    sum1(1)(2)(3)
+    console.log(sum1(112,3))
+
+    // 实现一个add方法，使计算结果能够满足如下预期：
+    add(1)(2)(3) = 6;
+    add(1, 2, 3)(4) = 10;
+    add(1)(2)(3)(4)(5) = 15;
+
+    
+  </script>
+</body>
+
+</html>

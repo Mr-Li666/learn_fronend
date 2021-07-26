@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // Reflect : 
+    // 1. Object上的内部方法，也可以通过Reflect来调用。 如Object.defineProperty()
+    // 2. 将Object的一些命令式操作变为函数行为，比如 
+    // delete obj[key] => Reflect.deleteProperty(obj, key)
+    // key in obj => Reflect.has(obj, key)   
+    let obj1 = {
+      'a':1,
+      'b':2,
+      'c':3
+    }   
+    console.log('a' in obj1)     
+    console.log(Reflect.has(obj1,'a'))   
+    //  Reflect 方法和Proxy方法对应。凡是能在Proxy上访问的方法，在Reflect上也能访问
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 思路：从第一个元素开始，进行元素两两比较，如果元素大，就向后移。这样在第一次循环时，把最大的元素排到了数组的最后面。
+    //        第二次循环开始，也进行第一次类似的操作，这次循环把第二大的元素放到道速第二的位置
+    function bubbleSort(arr) {
+      let length = arr.length;
+      while (length > 1) {
+        for (let i = 0; i < length - 1; i++) {
+          if (arr[i] > arr[i + 1]) {
+            changePosition(i, i + 1, arr)
+          }
+        }
+        length--
+      }
+      return arr
+    }
+    function changePosition(i, j, arr) {
+      let temp = arr[i]
+      arr[i] = arr[j]
+      arr[j] = temp
+    }
+
+    let arr = [3, 5, 10, 9, 11, 8, 6, 2, 4]
+    
+    console.log(bubbleSort(arr))
+  </script>
+</body>
+
+</html>

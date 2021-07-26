@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 思路：1. 找到数组中的中间元素作为枢纽
+    //      2. 将中间元素移到数组的最后
+    // 3. 以中间元素为枢纽，进行元素大小比较。
+    // 4. 左右两个指针，左指针一直找到比中间元素大的，然后停止。右指针从右向左查找，找到比该元素小的，停止。
+    // 5. 将这两个元素进行位置调换
+    // 6. 接着这两个位置继续查找，直到左右指针重合了，或者左指针超过了右指针。
+    // 7. 将枢纽和左指针的元素进行位置调换，完成第一次排序。
+    // 8. 此时，以枢纽为中心，左边的元素都是小于枢纽，右边的都是大于枢纽，然后左右两边再进行排序
+    function changePosition(i, j, arr) {
+      let temp = arr[i];
+      arr[i] = arr[j]
+      arr[j] = temp
+    }
+
+    function findCenter(arr, left, right) {
+      let center = Math.floor((left + right) / 2)
+
+      // 从小到大交换位置
+      if (arr[left] > arr[right]) {
+        changePosition(arr, left, right)
+      }
+      if (arr[left] > arr[center]) {
+        changePosition(arr, left, center)
+      }
+      if (arr[center] > arr[right]) {
+        changePosition(arr, center, right)
+      }
+
+      // 把中间的换到最后
+      changePosition(center, right, arr)
+      return arr[right]
+    }
+
+    // 快速排序
+    function quickSort(arr) {
+      quick(arr, 0, arr.length - 1)
+      return arr
+    }
+    function quick(arr, left, right) {
+      if(left >= right){
+        return
+      }
+      let center = findCenter(arr, left, right)
+      // console.log(center)
+      let leftPoint = left;
+      let rightPoint = right - 1;
+
+      while (leftPoint < rightPoint) {
+        while (arr[leftPoint] < center) {
+          leftPoint++
+        }
+        while (arr[rightPoint] > center) {
+          rightPoint--
+        }
+        if (leftPoint < rightPoint) {
+          changePosition(leftPoint, rightPoint, arr)
+        }else{
+          break;
+        }
+      }
+      changePosition(leftPoint, right, arr)
+      // console.log(arr)
+      quick(arr, left, leftPoint-1)
+      quick(arr, leftPoint+1, right)
+    }
+    
+
+    let arr = [3, 5, 10, 11, 9, 8, 6, 2, 4]
+    console.log(quickSort(arr))
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 1. Map:
+    // Map的key可以是任意值，可以是字符串、可以是对象、可以是函数。而object的key只能是字符串或symbol
+    // 可以调用Map.size()方法来获取map大小。
+    // map中的key与添加的顺序有关（FIFO）。而object中key的顺序与添加顺序无关
+
+    // ----------------------------------------与map有关的API
+    // 1.get set
+    let map = new Map()
+    let f = function(){}
+    map.set('1','我是字符串1')
+    map.set(1, '我是数字1')
+    map.set(f,'我是函数f')
+
+    console.log(map.get(1)); 
+    console.log(map.get('1')); 
+    console.log(map)
+    // 2. map.entries() 返回一个mapIterator
+    console.log(map.entries())
+
+    // 3. map.keys() 返回一个关于key的iterator对象
+    console.log(map.keys())
+    // 4. map.values() 返回一个关于value的iterator对象
+    console.log(map.values())
+
+    // 5. map遍历: 迭代器of方法、 forEach方法
+    for(let key of map){
+      console.log(key)
+    }
+    // ["1", "我是字符串1"]
+    //  [1, "我是数字1"]
+    // [ƒ, "我是函数f"]
+    for(let [key,value] of map){
+      console.log(key,value)
+    }
+    
+    for(let key of map.entries()){
+      console.log(key)
+    }
+    // ["1", "我是字符串1"]
+    //  [1, "我是数字1"]
+    // [ƒ, "我是函数f"]
+
+    for(let key of map.keys()){
+      console.log(`key:${key}`)
+      console.log(map.get(key))
+    }
+
+    for(let values of map.values()){
+      console.log(`values:${values}`)
+    }
+
+    map.forEach((item,index) => {
+      console.log(`key:${index}, value:${item}`)
+    })
+
+    // 6. map转化为数组：转换成一个二维数组[[key1,value1],[key2,value2],[key3,value3]]
+    let arr = Array.from(map)
+    console.log(arr)
+    // 7. 数组转换成map:
+    let a = [[0,'000'],[2,'22'],[3,'333'],[4,'44']]
+    let aMap = new Map(a)
+    console.log(aMap)
+
+    // 8. map克隆
+    let cloneMap = new Map(aMap)
+    console.log(cloneMap)
+    console.log(cloneMap == aMap)  // false
+
+    // 9. map合并
+    let mergeMap = new Map([...aMap, ...map])
+    console.log(mergeMap)
+  </script>
+</body>
+</html>

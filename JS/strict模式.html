@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // use strict" 指令只允许出现在脚本或函数的开头。
+    "use strict"
+    // 1. 变量必须要声明
+    // a = 1   //报错   a is not defined
+
+    // 2. 不允许删除变量
+    var x = 3.14;
+    // delete x;
+
+    // 3.函数内的参数 不允许重名 Duplicate parameter name not allowed in this context
+    // function f(p1,p1){}
+
+    // 4. 不允许使用8进制
+    // var x = 010 ;// Octal literals are not allowed in strict mode.
+    // 5 不允许使用转义字符
+    
+    // 6. 禁止this关键字指向全局
+    function f1(){
+      console.log(this) //this 指向window
+    }
+    f1()
+    function f2(){
+      "use strict"
+      console.log(this) //undefined
+    }
+    f2()
+
+    // 7. 不允许删除函数
+    delete f1
+
+    // 8. 不允许删除一个不能删除的属性
+    delete Object.prototype
+
+    // 不能用eval arguments  let yield public 作为变量名
+    let eval = 'eval'
+    
+  </script>
+</body>
+</html>

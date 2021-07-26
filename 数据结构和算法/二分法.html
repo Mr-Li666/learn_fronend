@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 使用二分法来查找数组中的元素。前提是数组是一个有序的 不重复的
+    let arr = [2, 3, 6, 8, 9, 11, 22, 55, 100]
+    function search(arr, element) {
+      let leftPoint = 0;
+      let rightPoint = arr.length - 1
+      // let position = []
+      while (leftPoint < rightPoint) {
+        let center = Math.floor((leftPoint + rightPoint) / 2) //1 0
+        if (element > arr[center]) {
+          // 向右查找
+          leftPoint = center // 0
+        } else if (element < arr[center]) {
+          // 向左查找
+          rightPoint = center
+        } else {
+          // 找到该元素的位置
+          return center
+        }
+      }
+      return -1
+    }
+    console.log(search(arr, 3))
+    console.log(search(arr, 22))
+    
+
+    // 同时求一个数组的和，最大值 和 最小值
+    let arr1 = [1,10,9,8,7,5,12,2,3,11]
+    function getSum(arr) {
+      let sum = arr[0];
+
+      let small = arr[0];
+      let smallPosition = 0;
+
+      let big = arr[0];
+      let bigPosition = 0;
+      for(let i = 1; i < arr.length; i++){
+        sum = sum + arr[i]
+        if(arr[i] > big){
+          bigPosition = i
+          big = arr[i]
+        }
+        if(arr[i] <small){
+          smallPosition = i;
+          small = arr[i]
+        }
+      }
+      return {
+        big,
+        bigPosition,
+        small,
+        smallPosition,
+        sum
+      }
+    }
+    console.log(getSum(arr1));
+  </script>
+</body>
+
+</html>

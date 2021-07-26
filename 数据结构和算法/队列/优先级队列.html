@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    class CreateElement {
+      constructor(element, priority) {
+        this.element = element
+        this.priority = priority
+      }
+    }
+
+    class PriorityQuene {
+      constructor() {
+        this.list = []
+      }
+
+      insert(element,priority) {
+        let insertEle = new CreateElement(element, priority)
+        if(this.list.length == 0){
+          this.list.push(insertEle)
+        }else{
+          let isAdd = false;
+          for(let i = 0; i<this.list.length;i++){
+            if(insertEle.priority <= this.list[i].priority){
+              this.list.splice(i,0,insertEle)
+              isAdd = true
+              break;
+            }
+          }
+          if(!isAdd){
+            this.list.push(insertEle)
+          }
+        }
+        return this.list
+      }
+    }
+
+    let pq = new PriorityQuene()
+    pq.insert('lihao',111)
+    pq.insert('lihao1',1)
+    pq.insert('lihao2',10)
+
+    console.log(pq)
+  </script>
+</body>
+
+</html>

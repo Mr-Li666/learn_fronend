@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  // 栈： 后进先出 LIFO last in first out
+  // 使用场景：
+  // 1. 函数调用栈：A调用B B调用C C调用D
+  // 2. 递归：重复的调用自己，需要再某个节点进行return 否则会造成栈溢出 stack overflow
+  <script>
+    // 栈操作：
+    // push(element)
+    // pop()
+    // peek() 返回栈顶的元素，不对栈进行修改
+    // isEmpty() 没有元素返回true
+    // size() 返回战力元素的个数
+    // toString() 将栈结构的内容以字符串的形成返回
+
+    // function Stack(){
+    //   this.item = []
+    // }
+
+    // Stack.prototype = {
+    //   push(){
+    //     // console.log(arguments)
+    //     this.item.push(...arguments)
+    //     return this.item
+    //   },
+    //   pop(){
+    //     return this.item.pop()
+    //   },
+    //   peek(){
+    //     return this.item[this.item.length-1]
+    //   },
+    //   isEmpty(){
+    //     return this.item.length?false:true
+    //   },
+    //   size(){
+    //     return this.item.length
+    //   },
+    //   toString(){
+    //     return this.item.join('->')
+    //   }
+    // }
+
+    // let s = new Stack();
+    // s.push(1,2,3,5)
+    // console.log(s.pop())
+    // console.log(s.peek())
+    // console.log(s.toString())
+
+    class Stack {
+      constructor() {
+        this.item = []
+      }
+      push() {
+        // console.log(arguments)
+        this.item.push(...arguments)
+        return this.item
+      }
+      pop() {
+        return this.item.pop()
+      }
+      peek() {
+        return this.item[this.item.length - 1]
+      }
+      isEmpty() {
+        return this.item.length ? false : true
+      }
+      size() {
+        return this.item.length
+      }
+      toString() {
+        return this.item.join('')
+      }
+    }
+    let s = new Stack();
+    s.push(1,2,3,5)
+    console.log(s.pop())
+    console.log(s.peek())
+    console.log(s.toString())
+
+    // 栈的应用：10进制转换成2进制
+    function change(number){
+      let stack = new Stack();
+      let str = ''
+      while(number/2 >= 1){
+        let rest = number % 2;
+        stack.push(rest)
+        number = Math.floor(number/2)
+      }
+      if(number == 1){
+        stack.push(number)
+      }
+      while(!stack.isEmpty()){
+        str += stack.pop()
+      }
+      return str
+    }
+    console.log(change(100))
+  </script>
+</body>
+
+</html>

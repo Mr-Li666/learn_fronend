@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <style>
+    img {
+      display: block;
+    }
+  </style>
+  1. DOM结构优化
+  使用语义化标签
+  将css放在head部分， 将js放在body的最后
+  尽量将元素包裹在一个div里面，或者使用cssText、fragment来集中操作css属性，减少重排重绘
+
+  2. JS优化：
+  使用防抖 截流，减少事件的触发
+
+  3. 服务器优化：
+  使用强缓存或协商缓存
+  使用connection：keep-alive
+  可以使用http2.0
+
+  4. vue优化：
+  使用keep-alive 来缓存组件
+  vue路由懒加载
+
+  <!-- 图片的懒加载： -->
+  <!-- <img data-src="../img/原型链.png" alt="">
+  <img data-src="../img/1.jpg" alt="">
+  <img data-src="../img/10.jpg" alt="">
+  <img data-src="../img/2.jpg" alt="">
+  <img data-src="../img/3.jpg" alt="">
+  <img data-src="../img/4.jpg" alt="">
+  <img data-src="../img/5.jpg" alt="">
+  <img data-src="../img/6.jpg" alt="">
+  <img data-src="../img/7.jpg" alt="">
+  <img data-src="../img/8.jpg" alt="">
+  <img data-src="../img/9.jpg" alt="">
+  <script>
+    function lazyLoading() {
+      console.log('开始执行懒加载')
+      // 1. 获取scrollTop
+      let scrollTop = document.documentElement.scrollTop;
+      // 2. 获取clientHeight
+      let clientHeight = document.documentElement.clientHeight;
+
+      console.log('scroll:' + scrollTop)
+      console.log('clientHeight:' + clientHeight);
+      let imgs = document.getElementsByTagName('img')
+      for (let i = 0; i < imgs.length; i++) {
+        // 获取每一张图片的offsetTop
+        let offsetTop = getOffsetTop(imgs[i]);
+        console.log('offsetTop:' + offsetTop)
+        // 如果offset-scroll 小于等于 clientHeight， 就开始加载图片
+        if (offsetTop - scrollTop <= clientHeight) {
+          imgs[i].src = imgs[i].getAttribute('data-src')
+        }
+      }
+
+    }
+    function getOffsetTop(img) {
+      let offsetTop = img.offsetTop;
+      while (img.offsetParent) {
+        img = img.offsetParent
+        offsetTop += img.offsetTop
+      }
+      return offsetTop
+    }
+    window.onscroll = function () {
+      lazyLoading()
+    }
+    window.onload = function () {
+      window.onscroll()
+    }
+
+    // var imgs = document.querySelectorAll('img');
+
+    // //用来判断bound.top<=clientHeight的函数，返回一个bool值
+    // function isIn(el) {
+    //   var bound = el.getBoundingClientRect();
+    //   var clientHeight = window.innerHeight;
+    //   return bound.top <= clientHeight;
+    // }
+    // //检查图片是否在可视区内，如果不在，则加载
+    // function check() {
+    //   Array.from(imgs).forEach(function (el) {
+    //     if (isIn(el)) {
+    //       loadImg(el);
+    //     }
+    //   })
+    // }
+    // function loadImg(el) {
+    //   if (!el.src) {
+    //     var source = el.dataset.src;
+    //     el.src = source;
+    //   }
+    // }
+    // window.onload = window.onscroll = function () { //onscroll()在滚动条滚动的时候触发
+    //   check();
+    // }
+  </script> -->
+  <!-- <ul>        
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+    <li data-src="../img/原型链.png"><i></i></li>
+</ul>
+<script>
+  /* 获取节点 */    
+var oUl = document.getElementsByTagName('ul')[0];
+var aLi = oUl.getElementsByTagName('li');
+/* 创建img标签函数 */    
+function createImg(obj){   
+    var src = '';    
+    if(obj.dataset.src){
+        src = obj.dataset.src;
+    }else{
+        src = obj.getAttribute('data-src');
+    }    
+    if(obj.children.length <= 1){        
+        var img = document.createElement('img');
+        img.src = src;
+        obj.appendChild(img);
+    }
+}
+function getTop(obj){    
+  var h = 0;    
+  while(obj){
+      h += obj.offsetTop;
+      obj = obj.offsetParent;
+  }    
+  return h;
+}
+window.onscroll = function(){    
+    var t = document.documentElement.clientHeight + (document.body.scrollTop || document.documentElement.scrollTop);    
+    for(var i=0;i<aLi.length;i++){        
+        if(getTop(aLi[i]) < t){  
+            setTimeout('createImg(aLi['+i+'])',500)
+        }
+    } 
+}
+/* 页面加载完便执行一次滚动函数 */
+window.onload = function(){    
+    window.onscroll();
+} -->
+<!-- </script> -->
+
+
+</body>
+
+</html>

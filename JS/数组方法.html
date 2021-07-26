@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let arr = [1,5,'222','hhh',undefined, null]
+    // 1. toString
+    let arrString = arr.toString()
+    console.log(arrString)  //14 1,5,222,hhh,,    undefined null 不会被转化成字符串
+
+    // 2. join: 将数组以某种方式连接
+    // 3. concact: 连接数组
+    // 4. push pop shift unshift 
+    // 5. delete: 删除数组指定的元素,数组中被删除的元素变成empty,不会改变数组长度
+    let arrdelete = delete arr[0]
+    console.log(arrdelete) //true
+    console.log(arr, arr.length)
+
+    // 6. slice(start, end): 返回一个从start到end的数组，不包括end。 不改变原数组.start只能有一个是负数，截取的时候是从前向后截取，所以start<end
+    let arrslice = arr.slice(-3,-1);
+    console.log(arrslice)
+
+    // 7. splice(startposition, howmany, item1,item2...): 向数组中添加/删除元素， 会改变原数组， 返回一个删除元素组成的数组
+          //  startposition可以是负数
+          // let arrsplice = arr.splice(2,2)
+          let arrsplice = arr.splice(4,2, '111','222','333')
+          console.log(`arr:${arr}; arrsplice:${arrsplice}`)
+
+    // 8. 数组的扁平化 Array.prototype.falt()。返回一个新数组，不会修改原数组
+    let faltArr = [1,2,3,[4,5,6],[[7,8],9],10]
+    console.log(faltArr.flat())  //默认情况下 只会拉平一层
+    console.log(faltArr.flat(2)) // 传入一个整数，表示把整数维度的数组拉平
+    console.log(faltArr.flat(Infinity))  // 传入infinity 表示把所有的都变成一维
+  </script>
+</body>
+</html>

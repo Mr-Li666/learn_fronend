@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- DOM事件流：3个阶段
+  事件捕获阶段：
+  处于目标阶段：
+  事件冒泡阶段： -->
+  <div>
+    <button>
+      点击一下
+    </button>
+  </div>
+  <script>
+    // addeventListener 第三个参数true：表示在事件捕获阶段调用此函数、  false表示在事件冒泡阶段调用此函数
+    let button = document.getElementsByTagName('button')[0]
+    let div = document.getElementsByTagName('div')[0]
+    document.body.addEventListener('click',()=>{
+      console.log('body')
+    })
+    console.log(button)
+    button.addEventListener('click',()=>{
+      console.log('button')
+    },false)
+    div.addEventListener('click',()=>{
+      console.log('div---事件冒泡')
+    },false)
+    div.addEventListener('click',()=>{
+      console.log('div---事件捕获')
+    },false)
+
+    
+  </script>
+</body>
+</html>

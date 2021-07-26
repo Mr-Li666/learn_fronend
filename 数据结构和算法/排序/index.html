@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    class ArrayList { 
+      constructor() {
+        this.array = []
+      }
+      insert(element) {
+        this.array.push(element)
+      }
+      toString() {
+        return this.array.join('->')
+      }
+
+      // 冒泡排序:相邻的两个元素进行比较，大的后移。
+      //          在第一次循环完成后，最大的一个放到了最后。重复循环，每次都将大的放到最后，最后完成从小到大排序
+      // 比较次数：对于N个元素，第一次N-1，第二次N-2，一直到1 。总的比较次数是1+2+3+（N-2）+（N-1）=N(N-1)/2
+      // 交换次数：实际情况不可能每个元素都要进行交换，总的交换次数为N(N-1)/4
+      bubbleSort() {
+        let length = this.array.length;
+        while (length > 1) {
+          for (let i = 0; i < length - 1; i++) {
+            const element = this.array[i];
+            if (element > this.array[i + 1]) {
+              // console.log('交换位置')
+              this.changePosition(this.array, i, i + 1)
+            }
+          }
+          length--
+        }
+        // return this.array
+      }
+
+      // 选择排序:第一个元素和后面的元素进行比较，如果小于第一个元素，就记录该位置以及可以将此处作为最小值。然后后面的元素继续和该元素进行比较。
+      //        经过第一次循环，最小的元素已经找到了，将该元素和第一个位置进行交换，最小值就排到了最前面。然后进入第二次循环，从第二个元素进行比较
+      // 比较次数：N(N-1)/2
+      //  交换次数：N-1次
+      chooseSort() {
+        let length = this.array.length;
+        let arr = this.array
+        let min;  //用于记录最小值
+        let position; // 用于记录最小值的位置
+        for (let i = 0; i < length - 1; i++) {
+          // 先默认第0个位置是最小值
+          min = arr[i]
+          position = i
+          for (let j = i + 1; j < length; j++) {
+            if (arr[j] < min) {
+              // 将小于的值记录下来
+              min = arr[j];
+              position = j
+            }
+          }
+          this.changePosition(arr, position, i)
+        }
+      }
+      // 插入排序：是简单排序中效率最好的一种。使用该方法的前提是局部有序。
+      // 第一个元素可以当做是有序的，从第二个元素开始比较。如果前面的元素比该元素大，元素后移。直到找到比该元素小的，后移停止，将该元素插入进来
+      // insertSort(){
+      //   let length = this.array.length;
+      //   let arr = this.array
+      //   for(let i = 1; i<length;i++){
+      //     let element = arr[i]
+      //     let j = i-1;
+      //     for(j; j>=0;j--){
+      //       if(element < arr[j]){
+      //         // 后移
+      //         arr[j+1] = arr[j]
+      //       }else{
+      //         // 将该元素放入这个位置
+      //         arr[j+1] = element;
+      //         break;
+      //       }
+      //     }
+      //     if(j==-1){
+      //       arr[0] = element
+      //     }
+      //   }
+      // }
+      insertSort() {
+        let length = this.array.length;
+        let arr = this.array
+        for (let i = 1; i < length; i++) {
+          let element = arr[i]
+          let j = i - 1
+          while (j >= 0 && element < arr[j]) {
+            arr[j + 1] = arr[j]
+            j--
+          }
+          arr[j + 1] = element
+        }
+      }
+      // 希尔排序:类似插入排序，只不过增加了一个gap变量，相当于插入排序gap为1.
+      shellSort() {
+        let arr = this.array
+        // 1.获取数组的长度
+        var length = this.array.length
+
+        // 2.根据长度计算增量
+        var gap = Math.floor(length / 2)
+
+        // 3.增量不断变量小, 大于0就继续排序
+        while (gap > 0) {
+          // 4.实现插入排序
+          for (let i = gap; i < length; i++) {
+            let tmp = arr[i]
+            let j = i - gap;
+            while (j >= 0 && tmp < arr[j]) {
+              arr[j + gap] = arr[j]
+              j = j - gap
+            }
+
+            arr[j + gap] = tmp
+          }
+
+          // 5.重新计算新的间隔
+          gap = Math.floor(gap / 2)
+        }
+      }
+      // 快速排序:分而治之的思想，首先选出一个数字，大于该数字的所有元素，放在右边。小于该元素的，放在左边。
+      // 然后通过递归，对左边的元素再进行分组，对右边的元素也进行分组
+      quickSort() {
+        this.quickSortRec(this.array,0, this.array.length - 1)
+      }
+
+      quickSortRec(arr, left, right) {
+        if (left >= right) return
+        let center = this.findPiovt(arr, left, right)
+        let leftPoint = left;
+        let rightPoint = right - 1
+        let position;
+
+        while (leftPoint < rightPoint) {
+          while (arr[leftPoint] < center) {
+            leftPoint++
+          }
+          while (arr[rightPoint] > center) {
+            rightPoint--
+          }
+          if (leftPoint < rightPoint) {
+            this.changePosition(arr, leftPoint, rightPoint)
+          }else{
+            position = leftPoint
+          }
+        }
+        // 将枢纽放回到正确的位置
+        this.changePosition(arr, position, right)
+
+        // 递归调用
+        this.quickSortRec(arr,left, leftPoint-1)
+        this.quickSortRec(arr,leftPoint+1, right)
+      }
+
+      // 两个元素交换位置
+      changePosition(array, i, j) {
+        let temp;
+        temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+      }
+      // 快速排序中寻找枢纽
+      findPiovt(arr, left, right) {
+        let center = Math.floor((left + right) / 2)
+
+        if (arr[left] > arr[right]) {
+          this.changePosition(arr, left, right)
+        }
+        if (arr[left] > arr[center]) {
+          this.changePosition(arr, left, center)
+        }
+        if (arr[center] > arr[right]) {
+          this.changePosition(arr, center, right)
+        }
+
+        // 将中位数移到最后的位置，开始进行查找
+        this.changePosition(arr, center, right)
+        return arr[right]
+      }
+    }
+
+    let array = new ArrayList()
+    array.insert(3)
+    array.insert(5)
+    array.insert(10)
+    array.insert(11)
+
+    array.insert(9)
+    array.insert(8)
+    array.insert(6)
+    array.insert(2)
+    array.insert(4)
+    // array.insert(66)
+    // array.insert(0)
+    console.log(array.toString())
+    // array.bubbleSort()
+    // array.chooseSort()
+    // array.insertSort()
+    // array.shellSort()
+    array.quickSort()
+    console.log(array)
+  </script>
+</body>
+
+</html>

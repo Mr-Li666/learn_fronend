@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  1. 水平居中：
+      行内元素
+    (1)如果父元素是块元素，直接父元素text-align:center
+    (2)如果父元素是内联元素，父元3素设为块元素display：block 。text-align:center
+      块元素
+    (1)该元素宽度固定，margin：0 auto
+    (2)宽度不固定：该元素设置为内联元素，display：inline/inline-block  。父元素 text-align：center
+    (3)绝对定位和相对定位，配合transform和translate
+    (4)flex布局
+
+
+  2. 垂直居中
+      行内元素：
+    (1)单行内元素：line-height设为和height一样
+    (2)多行内元素：父元素设为display：table-cell 。vertical-align：middle
+      块元素
+    (1)flex布局 align-item:center
+    (2)绝对定位和相对定位，配合transform和translate
+
+  3. 水平和垂直居中同时实现：
+    (1)flex布局
+    (2)绝对定位和相对定位，配合transform和translate
+    (3)已知元素宽度和高度后：父元素relative 子元素absolute  left top right bottom = 0; margin:auto
+</body>
+</html>

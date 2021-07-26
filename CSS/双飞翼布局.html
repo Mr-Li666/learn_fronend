@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 与圣杯布局相比，双飞翼布局在中间部分增加了一个div，此时圣杯布局的padding效果可以由该部分的margin来实现，这样就不用设置左右元素position：relative -->
+  <div class="header">header</div>
+  <div class="container">
+    <div class="content">
+      <div class="center">center</div>
+    </div>
+    <div class="left">left</div>
+    <div class="right">right</div>
+  </div>
+  <div class="footer">footer</div>
+  <style>
+    body, div{
+      margin: 0;
+      padding: 0;
+      word-break: break-all;
+    
+    }
+    .header, .footer{
+      background: lightcoral;
+      height: 100px;
+      line-height: 100px;
+      text-align: center;
+    }
+    .container .left{
+      width: 150px;
+      height: 50px;
+      background: lightskyblue;
+      /* 1. 将三部分都设置为float：left */
+      float: left;
+      /* 4. 利用margin-left 将左右两边进行平移到和中间相同的位置，此时会遮挡住中间部分 */
+      margin-left: -100%;
+    }
+    .content{
+      float: left;
+      width: 100%;
+    }
+    .container .center{
+      background:goldenrod;
+      height: 100px;
+      /* 2. 宽度设为100% */
+      width: 100%;
+      /* 5. 利用margin，消除遮挡部分 */
+      margin-left: 150px;
+      margin-right:200px ;
+    }
+    .container .right{
+      width: 200px;
+      height: 150px;
+      background:gray;
+      float: left;
+      margin-left: -200px;
+    }
+    /* 3. 清除浮动 */
+    .container:after{
+      content: '';
+      clear: both;
+      display: block;
+    }
+  </style>
+</body>
+</html>

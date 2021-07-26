@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    class Node {
+      constructor(key) {
+        this.key = key;
+        this.left = null;
+        this.right = null;
+      }
+    }
+
+    class BinaryTree {
+      constructor() {
+        this.root = null
+
+        // 先序遍历
+        this.preStr = ''
+        // 中序遍历
+        this.middleStr = ''
+        // 后序遍历
+        this.postStr = ''
+      }
+
+      // 插入节点
+      insert(key) {
+        let node = new Node(key)
+
+        if (this.root == null) {
+          this.root = node
+        } else {
+          let current = this.root
+          while (current) {
+            if (node.key < current.key) {
+              // 向左插入
+              if (current.left == null) {
+                current.left = node
+                break;
+              } else {
+                current = current.left
+              }
+            } else {
+              // 向右插入
+              if(current.right == null){
+                current.right = node;
+                break;
+              }else{
+                current = current.right
+              }
+            }
+          }
+
+        }
+      }
+
+      // 先序遍历
+      pre(){
+        this._pre(this.root)
+        return this.preStr
+      }
+      _pre(node){
+        if(node){
+          this.preStr = this.preStr + node.key + ' '
+        this._pre(node.left)
+        this._pre(node.right)
+        }
+      }
+      // 中序遍历
+      inorder(){
+        this._inorder(this.root)
+        return this.middleStr
+      }
+      _inorder(node){
+        if(node){
+          this._inorder(node.left)
+          this.middleStr = this.middleStr + node.key + ' '
+          this._inorder(node.right)
+        }
+      }
+      // 后序遍历
+      post(){
+        this._post(this.root)
+        return this.postStr 
+      }
+      _post(node){
+        if(node){
+          this._post(node.left)
+          this._post(node.right)
+          this.postStr = this.postStr + node.key + ' '
+        }
+      }
+    }
+
+    // 测试代码
+    var tree = new BinaryTree()
+
+    // 插入数据
+    tree.insert(11)
+    tree.insert(7)
+    tree.insert(15)
+    tree.insert(5)
+    tree.insert(3)
+    tree.insert(9)
+    tree.insert(8)
+    tree.insert(10)
+    tree.insert(13)
+    tree.insert(12)
+    tree.insert(14)
+    tree.insert(20)
+    tree.insert(18)
+    tree.insert(25)
+    console.log(tree)
+
+    console.log('先序遍历：'+tree.pre())
+    console.log('中序遍历：'+tree.inorder())
+    console.log('后序遍历：'+tree.post())
+  </script>
+</body>
+
+</html>

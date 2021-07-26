@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let arr = [3, 5, 6, 7, 5, 8, 4, 9, 1,7,8]
+    // let arr = [3,1,2,4,0]
+    // 1. reduce方法：reduce(function(preValue, currentValue, currentIndex, array){}, initialValue)
+    //    initialValue: 表示第一次调用回调函数时传入的初始值
+    //    function接收4个参数：
+    // preValue：第一次回调时表示传入的初始值，后面表示每次回调的返回值，如果没有返回值，则prevalue为undefined
+    // currentValue：数组中的当前元素
+    // currentIndex：元素索引值
+    // array：当前元素所处的数组
+
+    // (1)求最大值:
+    // let big = arr.reduce((preValue, currentValue) => {
+    //   console.log(`pre:${preValue}, current:${currentValue}`)
+    //   let result;
+    //   if (preValue > currentValue) {
+    //     result = preValue
+    //   } else {
+    //     result = currentValue
+    //   }
+    //   // prevalue 表示每次返回的这个
+    //   return result
+    // })
+
+    let big = arr.reduce((preValue, currentValue) => {
+      console.log(`pre:${preValue}, current:${currentValue}`)
+      
+      if (preValue < currentValue) {
+        preValue = currentValue
+      } 
+      // prevalue 表示每次返回的这个
+      return preValue
+    })
+    console.log(big)
+
+    // (2)数组去重：
+    let norepeat = arr.reduce((pre, cur) => {
+      // if (!pre.includes(cur)) {
+      //   pre.push(cur)
+      // }
+      if(pre.indexOf(cur) == -1){
+        pre.push(cur)
+      }
+      return pre
+    }, [])
+    console.log(norepeat)
+
+    // // (3)判断数组中的元素出现了几次
+    let names = ['Alice', 'Bob', 'Tiff', 'Bruce', 'Alice'];
+    let arraytimes = names.reduce((pre, cur, currentIndex) => {
+      if (!pre[cur]) {
+        pre[cur] = 1
+      } else {
+        pre[cur]++
+      };
+
+      return pre
+    }, {})
+    console.log(arraytimes)
+
+    // // (4)将二维数组转化为一维
+    let arrTwo = [[0, 1], [2, 3], [4, 5]]
+    let arrone = arrTwo.reduce((pre, cur) => {
+      for (let i = 0; i < cur.length; i++) {
+        pre.push(cur[i])
+      }
+      return pre
+    }, [])
+    console.log(arrone)
+
+    // // (5)将多维数组转化为1维
+    // let arrDimonds = [[0, 1], [2, 3], [4, [5, 6, 7], 8, [9, 10]]]
+    // let arrd = arrDimonds.reduce((preValue, currentIndex)=>{
+    //   if(Array.isArray(currentIndex)){
+    //     fn(currentIndex, preValue)
+    //   }else{
+    //     preValue.push(currentIndex)
+    //   }
+    //   return preValue
+    // },[])
+    // // 用于递归
+    // function fn(arr,result){
+    //   arr.forEach(element => {
+    //     if(Array.isArray(element)){
+    //       fn(element,result)
+    //     }else{
+    //       result.push(element)
+    //     }
+    //   });
+    // }
+    // console.log(arrd)
+
+    // const newArr = function (arr) {
+    //   return arr.reduce((pre, cur) => pre.concat(Array.isArray(cur) ? newArr(cur) : cur), [])
+    // }
+    // console.log(newArr(arrDimonds))
+  </script>
+</body>
+
+</html>

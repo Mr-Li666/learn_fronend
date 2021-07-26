@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 1. set对象： 不能有重复元素。可以存储任何类型的值，无论是原始值还是对象引用
+    let set = new Set()
+    set.add(1)
+    set.add('1')
+    set.add(1)
+    set.add({})
+    set.add({}) //两个对象是不一样的对象
+    console.log(set);
+    console.log(set.size)
+
+    // 2. 查找某个元素
+    console.log(set.has(1)); // true
+    console.log(set.has(2)); //false
+    // 2. 将数组转换成set
+    let arr = [1,2,3,4,5]
+    let arrSet = new Set(arr)
+    console.log(arrSet);
+
+    // 3.将Set转换成数组
+    let setArr = [...set]
+    console.log(setArr);
+
+    // 4. String转成Set: 利用这个可以实现字符串去重
+    let string = 'aaabbbcccdefgghhjss'
+    let strSet = new Set(string)
+    console.log(strSet) 
+
+    // 5. 求并集：
+    let set1 = new Set([1,2,3,4,5,6])
+    let set2 = new Set([3,4,5,6,7,8])
+    let union = new Set([...set1,...set2])
+    console.log(union);
+    // 6. 求交集
+    let intersect = [...set1].filter((item, index)=>{
+      // return [...set2].includes(item)
+      return set2.has(item)
+    })
+    console.log(intersect)
+    // 7. 求差集
+    let diff1 = [...set1].filter(item => !set2.has(item))
+    console.log(diff1)
+
+    let diff2 =[];
+     [...set2].forEach(item => {
+       if(![...set1].includes(item)){
+         diff2.push(item)
+       }
+     })
+     console.log(diff2)
+</script>
+</body>
+
+</html>

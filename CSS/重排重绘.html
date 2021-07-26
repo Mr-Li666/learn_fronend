@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- https://www.imooc.com/article/45936 -->
+  https://segmentfault.com/a/1190000017491520
+  重排：
+  所谓的重排，实际上是浏览器根据render tree每个渲染对象的信息，计算出每个渲染对象的几何信息，并放置在正确的位置。
+  所以当dom更改或者几何信息发生变化，就会引起重排。
+  引起重排的操作：
+  （1）页面首次渲染
+  （2）浏览器大小变化
+  （3）元素的尺寸或位置发生改变
+  （4）元素字体大小发生变化
+  （5）向DOM结构中添加、删除DOM
+  （6）激活css伪类，比如：hover
+
+      局部重排：只在一个区域内进行元素位置大小的变化，而不会影响整个文档流。
+              比如把一个dom的宽高几个信息定死，然后在dom内部处罚重排，就只会重新渲染dom内部的元素，而不会影响外界
+
+              <!-- transform会引起重排吗：不会。transform产生的图层是由GPU开启的一个新的复合图层，不会影响原先文档流的变化，属性的改变会交给GPU来处理
+              使GPU开启新图层的属性还有：动画animation、transition、opacity -->
+  重绘：
+  重绘就是元素的样式发生改变，但是不会影响其在文档流中的位置。比如更改颜色，visibility
+
+  渲染队列机制：当我们修改了几何操作，浏览器会把这些操作放入渲染队列，当队列里的操作数量达到一定程度或达到一定时间后，会批量执行
+            但是，offsetTop, offsetLeft, offsetWidth, offsetHeight
+            scrollTop, scrollLeft, scrollWidth, scrollHeight
+            clientTop, clientLeft, clientWidth, clientHeight
+            getComputedStyle(), 或者 IE的 currentStyle
+            这些属性会强制刷新渲染队列。
+
+  <!-- 减少重排和重绘 -->
+  1. 样式集中改变：避免设置大量的style属性，因为每一次设置style都会引起一次重排，可以用cssText来代替style
+      或者通过修改class的名称，来替换整体的渲染
+    <!-- var ele = document.getElementById('myDiv');
+    ele.style.borderLeft = '1px';
+    ele.style.borderRight = '2px';
+    ele.style.padding = '5px'; -->
+                ||
+    var ele = document.getElementById('myDiv');
+     
+    // 1. 重写style
+    ele.style.cssText = 'border-left: 1px; border-right: 2px; padding: 5px;';
+     
+    // 2. add style
+    ele.style.cssText += 'border-left: 1px;'
+     
+    // 3. use class
+    ele.className = 'active'
+
+2. 集中替换dom节点
+    var lis = document.getElementById('fruit');
+    var li = document.createElement('li');
+    li.innerHTML = 'apple';
+    lis.appendChild(li);
+     
+    var li = document.createElement('li');
+    li.innerHTML = 'watermelon';
+    lis.appendChild(li);
+
+    var fragment = document.createDocumentFragment();
+     
+var li = document.createElement('li');
+li.innerHTML = 'apple';
+fragment.appendChild(li);
+     
+var li = document.createElement('li');
+li.innerHTML = 'watermelon';
+fragment.appendChild(li);
+     
+document.getElementById('fruit').appendChild(fragment);
+
+3. 优化dom结构，将元素放在盒子里包裹，可能会引起局部重排，但是减少了整体的重排
+</body>
+</html>

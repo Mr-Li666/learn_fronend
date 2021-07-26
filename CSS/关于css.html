@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="">
+  <style>
+    @import url();
+  </style>
+</head>
+<body>
+  <!-- 1. css放在顶部和底部有什么区别：
+    css不会阻塞DOM的解析，但是会阻塞DOM的渲染
+    css放在后面可能会导致页面出现白屏、或者先出现原先的DOM结构，然后又闪回到排布的状态
+  -->
+
+  <!-- 2.src和herf的区别：
+    src：直接将src指向的内容加载到该标签处
+    herf： 用于和文档建立链接关系，不会加载到标签处
+  -->
+  <!-- 3. css link和@import的区别:
+    link是HTML标签， @import是css提供的，在css中使用的.
+    link引用css时，在页面载入时同时加载； @import需要页面完全载入后再加载
+    link支持使用js去操作改变样式，@imprt不支持
+  -->
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let arr = [[1, 2, 3, 4, 5], [9, 8, 7, 6, 5], [3, 4, 5, 6]]
+    let result = [[]]
+    for (let i = 0; i < arr.length; i++) {
+      let cur = arr[i]
+      let temp = [];
+     for(let k of result){
+        for (let j = 0; j < cur.length; j++) {
+          temp.push(k.concat(cur[j]))
+        }
+     }
+      result = temp
+
+    }
+    console.log(result)
+    
+    function full(arr) {
+      let result = [[]]
+      for(let i = 0; i<arr.length; i++){
+        let cur = arr[i]
+        temp = []
+        for(let j of result){
+          for(let k = 0; k < cur.length; k++ ){
+            temp.push(j.concat(cur[k]))
+          }
+        }
+        result = temp
+      }
+
+      return result
+    }
+  </script>
+</body>
+
+</html>

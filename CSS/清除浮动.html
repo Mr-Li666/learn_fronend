@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 1. 额外标签法：在要清除浮动的元素后添加一个空标签clear：both 
+          缺点：额外增加无意义标签，语义化差，不建议
+  -->
+  <div class="fm">
+    <div class="content1">content1</div>
+    <div class="content2">content1</div>
+    <div class="clear"></div>
+  </div>
+  <style>
+    .fm{
+        border: 2px solid black;
+        width: 400px;
+      }
+      .content1{
+        width: 100px;
+        height: 100px;
+        background: greenyellow;
+        float: left;
+      }
+      .content2{
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        float: right;
+      }
+      .clear{
+        clear: both;
+      }
+  </style>
+  <!-- 2. 父元素添加overflow，变成BFC布局。
+        缺点：内容过多时取消了溢出，不推荐
+  -->
+  <div class="fm2">
+    <div class="content1">content1</div>
+    <div class="content2">content1</div>
+  </div>
+  <style>
+    .fm2{
+      border: 2px solid black;
+      width: 400px;
+      overflow: hidden;
+    }
+    .fm2 .content1{
+      width: 100px;
+      height: 100px;
+      background: greenyellow;
+      float: left;
+    }
+    .fm2 .content2{
+      width: 200px;
+      height: 200px;
+      background-color: red;
+      float: right;
+    }
+  </style>
+
+  <!-- 3. 添加伪元素： ：after添加伪元素清除浮动-->
+  <div class="fm3">
+    <div class="content1">content1</div>
+    <div class="content2">content1</div>
+  </div>
+  <style>
+    .fm3{
+      border: 2px solid black;
+      width: 400px;
+    }
+    /*after添加伪元素清除浮动  */
+    .fm3::after{
+      content:'';
+      display: block;
+      clear:both;
+    }
+    .fm3 .content1{
+      width: 100px;
+      height: 100px;
+      background: greenyellow;
+      float: left;
+    }
+    .fm3 .content2{
+      width: 200px;
+      height: 200px;
+      background-color: red;
+      float: right;
+    }
+  </style>
+
+  <!-- 4. 在清除浮动的元素前后都添加伪元素 -->
+  <div class="fm4">
+    <div class="content1">content1</div>
+    <div class="content2">content1</div>
+  </div>
+  
+  <style>
+    .fm4{
+      border: 2px solid black;
+      width: 400px;
+    }
+    .fm4:after, .fm4:before{
+      content: '';
+      display: table;
+    }
+    .fm4:after{
+      clear: both;
+    }
+    .fm4 .content1{
+      width: 100px;
+      height: 100px;
+      background: greenyellow;
+      float: left;
+    }
+    .fm4 .content2{
+      width: 200px;
+      height: 200px;
+      background-color: red;
+      float: right;
+    }
+  </style>
+</body>
+</html>

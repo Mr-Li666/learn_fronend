@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let arr = [2,6,10,22,18]
+    // 1. map():返回一个新数组，数组中的元素为原始数组元素调用回调函数处理后的结果
+          // map和foreach 在IE6-8 都不支持
+      // 求数组的平方
+      let arr2 = arr.map((item)=>{
+        return item * item
+      })
+      console.log(arr2)
+
+      let arr3 = [];
+      arr.forEach((item)=>{
+         arr3.push(item * item)
+      })
+      console.log(arr3)
+
+      // map与foreach的区别在于：foreach没有return，不会对回调函数中的处理自动形成一个数组。
+      // map 对于空数组 返回一个空数组； foreach对于空数组不会进行操作
+
+    // 2. reduece():
+    let arrreduce = arr.reduce((preValue, current, currentIndex, arr)=>{
+      console.log(`pre:${preValue}; curr:${current}`)
+      preValue.push(current * current)
+      return preValue
+    },[])
+    console.log(arrreduce)
+
+    //3. filter():过滤数组 返回一个满足要求的数组
+    let arrfilter = arr.filter((item,index)=>{
+      return item > 10
+    })
+    console.log(arrfilter)
+
+    // 4. every():判断数组中的元素是否全部满足条件。如果所有元素都通过检测返回 true，否则返回 false。
+    let arrevery = arr.every((item)=>{
+      return item <100
+    })
+    console.log(arrevery)
+    // 5. some():判断数组中是否有元素满足条件。如果有一个元素满足，就返回true，不再进行后续检测。否则返回false
+  </script>
+</body>
+</html>
